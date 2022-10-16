@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1062709822802",
+    "project_id": "chuncheonconquest",
+    "storage_bucket": "chuncheonconquest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062709822802:android:b90ec2c368bc13c77f668b",
+        "android_client_info": {
+          "package_name": "com.dldmswo1209.chuncheonconquest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062709822802-ev325jvq3v4u1u8k77gugf3st42a89cm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkRhdSaNmKs7x_g_699GwR3ZUaLxK3ES4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062709822802-ev325jvq3v4u1u8k77gugf3st42a89cm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
