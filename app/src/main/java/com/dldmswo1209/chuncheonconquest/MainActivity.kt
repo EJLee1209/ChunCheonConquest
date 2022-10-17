@@ -2,11 +2,11 @@ package com.dldmswo1209.chuncheonconquest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.bumptech.glide.Glide
+import androidx.fragment.app.Fragment
 import com.dldmswo1209.chuncheonconquest.databinding.ActivityMainBinding
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
+import com.dldmswo1209.chuncheonconquest.fragment.HomeFragment
+import com.dldmswo1209.chuncheonconquest.fragment.MapFragment
+import com.dldmswo1209.chuncheonconquest.fragment.PostFragment
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy{
@@ -16,13 +16,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val storage = Firebase.storage.reference
+        initView()
 
-        storage.child("images/namisum.jpeg").downloadUrl.addOnSuccessListener {
-            Glide.with(this)
-                .load(it)
-                .centerCrop()
-                .into(binding.testImageView)
+    }
+
+    fun initView(){
+        val home = HomeFragment()
+        val map = MapFragment()
+        val post = PostFragment()
+        replaceFragment(home)
+
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.home -> {
+                    replaceFragment(home)
+                }
+                R.id.post -> {
+                    replaceFragment(post)
+                }
+                R.id.map -> {
+                    replaceFragment(map)
+                }
+            }
+            true
         }
+    }
+
+    fun replaceFragment(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.containerLayout, fragment)
+            .commit()
     }
 }

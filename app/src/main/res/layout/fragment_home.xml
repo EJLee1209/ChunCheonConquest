@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.HomeFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <wooooooak.com.library.DonutGaugeView
+                android:id="@+id/graph"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="12dp"
+                app:dg_start_value="70"
+                app:dg_end_value="100"
+                app:dg_top_text="춘천 정복"
+                app:dg_top_text_size="18sp"
+                app:dg_top_text_color="@color/white"
+                app:dg_middle_text_color="@color/white"
+                app:dg_front_circle_color="@color/green"
+                app:dg_unit_text=" %"
+                app:dg_unit_text_color="@color/white"
+                app:dg_bottom_text_color="@color/white"
+                app:dg_bottom_text="/100%"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/helloLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/graph"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/item_rect"
+                android:padding="18sp">
+
+                <TextView
+                    android:id="@+id/nameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="000 님"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"/>
+
+                <TextView
+                    android:id="@+id/goodDayTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="좋은 하루 보내세요!"
+                    android:textSize="16sp"
+                    android:textColor="#F3F3F3"
+                    app:layout_constraintTop_toBottomOf="@id/nameTextView"
+                    app:layout_constraintStart_toStartOf="@id/nameTextView" />
+
+                <androidx.constraintlayout.utils.widget.ImageFilterView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/user"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/nameTextView"
+                    app:layout_constraintBottom_toBottomOf="@id/goodDayTextView"
+                    android:layout_marginEnd="5dp"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

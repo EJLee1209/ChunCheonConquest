@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChunCheonConquest"
         tools:targetApi="31">
+
+
+
         <activity
             android:name=".RegisterActivity"
             android:exported="false"
@@ -23,12 +26,11 @@
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.ChunCheonConquest.NoActionBar" />
-
         <activity
             android:name=".SplashActivity"
             android:exported="true"
-            android:noHistory="true"
             android:label="@string/title_activity_login"
+            android:noHistory="true"
             android:theme="@style/Theme.ChunCheonConquest.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,13 +38,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LoginActivity"
             android:exported="false"
             android:label="@string/title_activity_login"
-            android:theme="@style/Theme.ChunCheonConquest.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.ChunCheonConquest.NoActionBar"/>
     </application>
 
 </manifest>
