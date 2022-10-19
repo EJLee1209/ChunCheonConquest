@@ -3,17 +3,17 @@
     <item
         android:id="@+id/home"
         android:icon="@drawable/menu_home_selector"
-        android:title="홈"/>
+        android:title=""/>
 
     <item
         android:id="@+id/post"
         android:icon="@drawable/menu_post_selector"
-        android:title="게시물"/>
+        android:title=""/>
 
     <item
         android:id="@+id/map"
         android:icon="@drawable/menu_map_selector"
-        android:title="지도"/>
+        android:title=""/>
 
 
 

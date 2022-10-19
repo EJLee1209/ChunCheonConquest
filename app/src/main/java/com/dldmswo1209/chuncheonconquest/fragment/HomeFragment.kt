@@ -14,7 +14,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.dldmswo1209.chuncheonconquest.adapter.HomeBannerAdapter
+import com.dldmswo1209.chuncheonconquest.adapter.TourListAdapter
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentHomeBinding
+import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -32,7 +34,18 @@ class HomeFragment : Fragment() {
     // 1.5 초 간격으로 배너 페이지 넘어감
     private val intervalTime = 2000.toLong()
 
-    private val bannerAdapter = HomeBannerAdapter()
+    private val bannerAdapter = HomeBannerAdapter{
+        showBottomDialog(it)
+    }
+    private val tourListAdapter = TourListAdapter {
+        showBottomDialog(it)
+    }
+    private val cafeListAdapter = TourListAdapter{
+        showBottomDialog(it)
+    }
+    private val restaurantListAdapter = TourListAdapter{
+        showBottomDialog(it)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,17 +59,36 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getUserInfo()
+        viewModel.getCafeList()
+        viewModel.getTourList()
+        viewModel.getRestaurantList()
+
+        binding.cafeRecyclerView.adapter = cafeListAdapter
+        binding.tourRecyclerView.adapter = tourListAdapter
+        binding.restaurantRecyclerView.adapter = restaurantListAdapter
+
         viewModel.user.observe(viewLifecycleOwner, Observer {
             binding.nameTextView.text = "${it.name} 님"
         })
 
-        viewModel.getCafeList()
         viewModel.cafeList.observe(viewLifecycleOwner, Observer {
             bannerAdapter.submitList(it)
             binding.viewPager.adapter = bannerAdapter
             binding.viewPager.setCurrentItem(bannerPosition, false)
+
+            cafeListAdapter.submitList(it)
+            cafeListAdapter.notifyDataSetChanged()
         })
 
+        viewModel.tourList.observe(viewLifecycleOwner, Observer {
+            tourListAdapter.submitList(it)
+            tourListAdapter.notifyDataSetChanged()
+        })
+
+        viewModel.restaurantList.observe(viewLifecycleOwner, Observer {
+            restaurantListAdapter.submitList(it)
+            restaurantListAdapter.notifyDataSetChanged()
+        })
 
         binding.viewPager.apply {
             clipToOutline = true
@@ -73,6 +105,11 @@ class HomeFragment : Fragment() {
                 }
             })
         }
+    }
+
+    private fun showBottomDialog(item: TourSpot){
+        val bottomSheet = DetailTourBottomSheetFragment(item)
+        bottomSheet.show(parentFragmentManager, bottomSheet.tag)
     }
 
     //배너 자동 스크롤 시작하게 하는 함수

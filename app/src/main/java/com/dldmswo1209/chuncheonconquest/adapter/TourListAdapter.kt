@@ -6,35 +6,33 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dldmswo1209.chuncheonconquest.databinding.BannerItemBinding
+import com.dldmswo1209.chuncheonconquest.databinding.TourItemBinding
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 
-class HomeBannerAdapter(val itemClicked : (TourSpot)->(Unit)): ListAdapter<TourSpot, HomeBannerAdapter.ViewHolder>(diffUtil) {
-    inner class ViewHolder(val binding: BannerItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(tour: TourSpot){
-            Glide.with(binding.root)
-                .load(tour.imageUrl)
-                .centerCrop()
-                .into(binding.imageView)
+class TourListAdapter(val itemClicked : (TourSpot) -> (Unit)): ListAdapter<TourSpot, TourListAdapter.ViewHolder>(diffUtil) {
 
-            binding.textView.text = tour.name
+    inner class ViewHolder(val binding: TourItemBinding): RecyclerView.ViewHolder(binding.root){
+        fun bind(item: TourSpot){
+            binding.nameTextView.text = item.name
+            Glide.with(binding.root)
+                .load(item.imageUrl)
+                .centerCrop()
+                .into(binding.tourImageView)
+
+            binding.tourImageView.clipToOutline = true
 
             binding.root.setOnClickListener {
-                itemClicked(tour)
+                itemClicked(item)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(BannerItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return ViewHolder(TourItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(currentList[position%currentList.size])
-    }
-
-    override fun getItemCount(): Int {
-        return Int.MAX_VALUE
+        holder.bind(currentList[position])
     }
 
     companion object{
