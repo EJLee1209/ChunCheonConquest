@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:paddingEnd="6dp">
 
+
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/tourImageView"
         android:layout_width="120dp"
@@ -14,13 +15,13 @@
 
     <TextView
         android:id="@+id/nameTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="이름"
         android:textColor="@color/white"
         android:textSize="14sp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:gravity="center"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

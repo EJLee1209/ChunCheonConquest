@@ -6,18 +6,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.dldmswo1209.chuncheonconquest.R
 import com.dldmswo1209.chuncheonconquest.databinding.BannerItemBinding
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 
 class HomeBannerAdapter(val itemClicked : (TourSpot)->(Unit)): ListAdapter<TourSpot, HomeBannerAdapter.ViewHolder>(diffUtil) {
     inner class ViewHolder(val binding: BannerItemBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(tour: TourSpot){
-            Glide.with(binding.root)
-                .load(tour.imageUrl)
-                .centerCrop()
-                .into(binding.imageView)
 
-            binding.textView.text = tour.name
+            if(tour.img_url == ""){
+                binding.imageView.setImageResource(R.drawable.no_image)
+            }else {
+                Glide.with(binding.root)
+                    .load(tour.img_url)
+                    .centerCrop()
+                    .into(binding.imageView)
+            }
+            binding.textView.text = tour.title
 
             binding.root.setOnClickListener {
                 itemClicked(tour)

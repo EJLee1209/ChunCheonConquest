@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/viewPager"
                 app:layout_constraintTop_toBottomOf="@id/tourRecyclerView"
-                android:text="춘천사람이 인정하는 맛집"
+                android:text="춘천 맛집"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold"

@@ -45,12 +45,15 @@ class DetailTourBottomSheetFragment(val item: TourSpot) : BottomSheetDialogFragm
         val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
-        Glide.with(binding.root)
-            .load(item.imageUrl)
-            .centerCrop()
-            .into(binding.tourImageView)
-
-        binding.nameTextView.text = item.name
+        if (item.img_url != "") {
+            Glide.with(binding.root)
+                .load(item.img_url)
+                .centerCrop()
+                .into(binding.tourImageView)
+        }
+        binding.nameTextView.text = item.title
+        binding.addressTextView.text = "주소 : ${item.addr}"
+        binding.telTextView.text = "전화 : ${item.tel}"
 
     }
 }

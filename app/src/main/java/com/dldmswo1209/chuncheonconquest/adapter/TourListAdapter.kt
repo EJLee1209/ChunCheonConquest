@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.dldmswo1209.chuncheonconquest.R
 import com.dldmswo1209.chuncheonconquest.databinding.TourItemBinding
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 
@@ -13,12 +14,15 @@ class TourListAdapter(val itemClicked : (TourSpot) -> (Unit)): ListAdapter<TourS
 
     inner class ViewHolder(val binding: TourItemBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item: TourSpot){
-            binding.nameTextView.text = item.name
-            Glide.with(binding.root)
-                .load(item.imageUrl)
-                .centerCrop()
-                .into(binding.tourImageView)
-
+            if(item.img_url == ""){
+                binding.tourImageView.setImageResource(R.drawable.no_image)
+            }else {
+                Glide.with(binding.root)
+                    .load(item.img_url)
+                    .centerCrop()
+                    .into(binding.tourImageView)
+            }
+            binding.nameTextView.text = item.title
             binding.tourImageView.clipToOutline = true
 
             binding.root.setOnClickListener {

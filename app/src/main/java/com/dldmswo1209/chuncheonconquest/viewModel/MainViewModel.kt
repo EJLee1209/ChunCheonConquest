@@ -44,7 +44,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
     fun getCafeList() = viewModelScope.launch {
         val cafes = mutableListOf<TourSpot>()
-        db.child("Tour").child("cafe").get().addOnSuccessListener {
+        db.child("ChunCheonTour").child("Cafe").get().addOnSuccessListener {
             it.children.forEach {
                 val cafe = it.getValue(TourSpot::class.java) as TourSpot
                 cafes.add(cafe)
@@ -56,11 +56,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun getTourList() = viewModelScope.launch {
         val tours = mutableListOf<TourSpot>()
-        db.child("Tour").child("tour").get().addOnSuccessListener {
+        db.child("ChunCheonTour").child("Tour").get().addOnSuccessListener {
             it.children.forEach {
                 val cafe = it.getValue(TourSpot::class.java) as TourSpot
                 tours.add(cafe)
-                Log.d("testt", "getCafeList() ${cafe.name}")
             }
             _tourList.postValue(tours)
         }
@@ -68,7 +67,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun getRestaurantList() = viewModelScope.launch {
         val restaurants = mutableListOf<TourSpot>()
-        db.child("Tour").child("restaurant").get().addOnSuccessListener {
+        db.child("ChunCheonTour").child("Restaurant").get().addOnSuccessListener {
             it.children.forEach {
                 val cafe = it.getValue(TourSpot::class.java) as TourSpot
                 restaurants.add(cafe)

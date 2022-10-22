@@ -28,7 +28,8 @@
                 <androidx.constraintlayout.utils.widget.ImageFilterView
                     android:id="@+id/tourImageView"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"/>
+                    android:layout_height="250dp"
+                    android:src="@drawable/no_image"/>
 
                 <TextView
                     android:id="@+id/nameTextView"
@@ -45,23 +46,23 @@
                     android:id="@+id/addressTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="주소"
-                    android:textSize="16sp"
+                    android:text="주소 : "
+                    android:textSize="12sp"
                     android:textColor="#F4F4F4"
                     android:layout_marginTop="4dp"
                     android:layout_marginStart="12dp"/>
 
                 <TextView
-                    android:id="@+id/contentTextView"
+                    android:id="@+id/telTextView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_marginTop="8dp"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
-                    android:text="본문 내용~~~~~~~~~~~~~"
+                    android:text="전화번호 : 010-1111-1111"
                     android:textColor="@color/white"
-                    android:textSize="14sp"/>
+                    android:textSize="12sp"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="match_parent"
