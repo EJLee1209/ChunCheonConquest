@@ -25,56 +25,219 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <androidx.constraintlayout.utils.widget.ImageFilterView
-                    android:id="@+id/tourImageView"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:src="@drawable/no_image"/>
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/nameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="투어 제목"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="12dp"/>
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/tourImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:src="@drawable/no_image"/>
 
-                <TextView
-                    android:id="@+id/addressTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="주소 : "
-                    android:textSize="12sp"
-                    android:textColor="#F4F4F4"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginStart="12dp"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:background="#40000000"/>
 
-                <TextView
-                    android:id="@+id/telTextView"
+                    <TextView
+                        android:id="@+id/nameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="투어 제목"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_gravity="bottom"/>
+
+                </FrameLayout>
+
+                <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:text="전화번호 : 010-1111-1111"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"/>
+                    android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/green_button"
-                    android:text="정복 완료"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:layout_margin="12dp"/>
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/menuRecyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/input_rect"
+                                android:backgroundTint="@color/dg_gray"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:paddingTop="30dp"
+                                android:paddingStart="10dp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="대표메뉴"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:layout_margin="30dp"/>
+
+                        </FrameLayout>
+
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/mapLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="15dp"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/input_rect"
+                            android:backgroundTint="@color/dg_gray">
+
+                            <androidx.constraintlayout.utils.widget.ImageFilterView
+                                android:id="@+id/locationImageView"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/icon_location"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"/>
+
+                            <TextView
+                                android:id="@+id/addressTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/locationImageView"
+                                android:layout_marginStart="20dp"
+                                android:text="주소입니다"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@id/addressTextView"
+                                app:layout_constraintStart_toEndOf="@id/locationImageView"
+                                android:layout_marginStart="20dp"
+                                android:text="탭해서 지도 펼치기"
+                                android:textColor="#E4E4E4"
+                                android:textSize="12sp"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/callLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="15dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:background="@drawable/input_rect"
+                            android:backgroundTint="@color/dg_gray">
+
+                            <androidx.constraintlayout.utils.widget.ImageFilterView
+                                android:id="@+id/callImageView"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/icon_call"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"/>
+
+                            <TextView
+                                android:id="@+id/telTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/callImageView"
+                                android:layout_marginStart="20dp"
+                                android:text="전화번호 입니다."
+                                android:textColor="@color/white"
+                                android:textSize="13sp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@id/telTextView"
+                                app:layout_constraintStart_toEndOf="@id/callImageView"
+                                android:layout_marginStart="20dp"
+                                android:text="탭해서 전화걸기"
+                                android:textColor="#E4E4E4"
+                                android:textSize="12sp"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/linkLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="15dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:background="@drawable/input_rect"
+                            android:backgroundTint="@color/dg_gray">
+
+                            <androidx.constraintlayout.utils.widget.ImageFilterView
+                                android:id="@+id/linkImageView"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:src="@drawable/icon_link"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"/>
+
+                            <TextView
+                                android:id="@+id/linkTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/linkImageView"
+                                android:layout_marginStart="20dp"
+                                android:text="네이버 플레이스로 이동"
+                                android:textColor="@color/white"
+                                android:textSize="13sp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@id/linkTextView"
+                                app:layout_constraintStart_toEndOf="@id/linkImageView"
+                                android:layout_marginStart="20dp"
+                                android:text="탭해서 더 많은 정보 보러가기"
+                                android:textColor="#E4E4E4"
+                                android:textSize="12sp"/>
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="* 해당 장소 정보는 네이버 플레이스에서 가져왔음을 알립니다"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:layout_margin="20dp"/>
+
+
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+                </androidx.core.widget.NestedScrollView>
+
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
 
         </FrameLayout>
 

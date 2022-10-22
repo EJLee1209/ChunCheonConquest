@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.R
+import com.dldmswo1209.chuncheonconquest.adapter.MenuListAdapter
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentDetailTourBottomSheetBinding
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -19,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class DetailTourBottomSheetFragment(val item: TourSpot) : BottomSheetDialogFragment() {
 
     private lateinit var binding : FragmentDetailTourBottomSheetBinding
+    private val menuListAdapter = MenuListAdapter()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme).apply {
@@ -52,8 +54,11 @@ class DetailTourBottomSheetFragment(val item: TourSpot) : BottomSheetDialogFragm
                 .into(binding.tourImageView)
         }
         binding.nameTextView.text = item.title
-        binding.addressTextView.text = "주소 : ${item.addr}"
-        binding.telTextView.text = "전화 : ${item.tel}"
+        binding.addressTextView.text = item.addr
+        binding.telTextView.text = item.tel
+
+        menuListAdapter.submitList(item.menu)
+        binding.menuRecyclerView.adapter = menuListAdapter
 
     }
 }
