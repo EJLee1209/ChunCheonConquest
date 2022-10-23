@@ -2,15 +2,20 @@ package com.dldmswo1209.chuncheonconquest.viewModel
 
 import android.app.Application
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.dldmswo1209.chuncheonconquest.model.User
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -19,6 +24,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE)
     val uid = sharedPreferences.getString("uid", "").toString()
     val db = Firebase.database.reference
+    var storageRef = FirebaseStorage.getInstance().reference.child("images")
 
     private val _user = MutableLiveData<User>()
     val user : LiveData<User>
@@ -35,6 +41,10 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _restaurantList = MutableLiveData<List<TourSpot>>()
     val restaurantList : LiveData<List<TourSpot>>
         get() = _restaurantList
+
+    private val _postList = MutableLiveData<List<Post>>()
+    val postList : LiveData<List<Post>>
+        get() = _postList
 
 
     fun getUserInfo() = viewModelScope.launch {
@@ -75,4 +85,29 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             _restaurantList.postValue(restaurants)
         }
     }
+
+    private fun uploadImage(imageUri: Uri, userInfo: User) = viewModelScope.launch {
+        val imgFileName = "${userInfo.uid}_${imageUri.lastPathSegment.toString()}.png"
+        storageRef.child(imgFileName).putFile(imageUri).addOnSuccessListener {
+            Log.d("testt", "ok")
+        }
+    }
+
+    fun uploadPost(post: Post, imageUri: Uri, userInfo: User) = viewModelScope.launch {
+        db.child("Post").child(userInfo.uid).child("${post.title}_${post.date}").setValue(post)
+        uploadImage(imageUri, userInfo)
+    }
+
+    fun getPost(userInfo: User) = viewModelScope.launch {
+        val posts = mutableListOf<Post>()
+        db.child("Post").child(userInfo.uid).get().addOnSuccessListener {
+            it.children.forEach { data ->
+                val post = data.getValue(Post::class.java) as Post
+                posts.add(post)
+            }
+            _postList.postValue(posts)
+        }
+    }
+
+
 }

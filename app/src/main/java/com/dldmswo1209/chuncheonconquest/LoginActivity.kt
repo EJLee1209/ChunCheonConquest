@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
                     editor.putString("uid", it.user?.uid)
                     editor.apply()
 
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, SplashActivity::class.java))
                     finish()
                 }
                 .addOnFailureListener {

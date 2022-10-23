@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.databinding.PostItemBinding
 import com.dldmswo1209.chuncheonconquest.model.Post
+import com.google.firebase.storage.FirebaseStorage
 
 class PostListAdapter: ListAdapter<Post, PostListAdapter.ViewHolder>(diffUtil) {
 
@@ -16,11 +17,12 @@ class PostListAdapter: ListAdapter<Post, PostListAdapter.ViewHolder>(diffUtil) {
             binding.titleTextView.text = post.title
             binding.dateTextView.text = post.date
 
-            post.image ?: return
-            Glide.with(binding.root)
-                .load(post.image)
-                .centerCrop()
-                .into(binding.imageView)
+            FirebaseStorage.getInstance().reference.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener {
+                Glide.with(binding.root)
+                    .load(it)
+                    .centerCrop()
+                    .into(binding.imageView)
+            }
         }
     }
 
