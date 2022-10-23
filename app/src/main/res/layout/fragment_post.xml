@@ -3,16 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragment.PostFragment"
-    android:background="@color/background_dark_gray">
+    android:background="@color/background_gray">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/postRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="postFragment"
-        android:textSize="30sp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/writeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="  기록하기"
+        android:textSize="14sp"
+        android:textStyle="bold"
         android:textColor="@color/white"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="15dp"
+        android:backgroundTint="@color/deep_green"/>
 
 </FrameLayout>

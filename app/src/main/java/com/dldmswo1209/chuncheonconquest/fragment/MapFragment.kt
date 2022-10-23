@@ -43,11 +43,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
         mapFragment?.getMapAsync(this)
 
-
-
     }
-
-
 
     override fun onMapReady(map: NaverMap) {
         naverMap = map

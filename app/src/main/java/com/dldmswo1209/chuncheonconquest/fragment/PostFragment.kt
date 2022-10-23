@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.dldmswo1209.chuncheonconquest.R
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentPostBinding
+import com.dldmswo1209.chuncheonconquest.model.TourSpot
 
 class PostFragment : Fragment() {
 
@@ -23,7 +24,16 @@ class PostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.writeButton.setOnClickListener{
+            showBottomDialog()
+        }
 
+
+    }
+
+    private fun showBottomDialog(){
+        val bottomSheet = WriteFragment()
+        bottomSheet.show(parentFragmentManager, bottomSheet.tag)
     }
 
 }
