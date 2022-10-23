@@ -38,43 +38,43 @@
                 android:id="@+id/helloLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/graph"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="12dp"
                 android:background="@drawable/item_rect"
-                android:padding="18sp">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/graph"
+                android:padding="15dp">
 
                 <TextView
                     android:id="@+id/nameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:text="000 님"
                     android:textColor="@color/white"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/goodDayTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="좋은 하루 보내세요!"
-                    android:textSize="16sp"
                     android:textColor="#F3F3F3"
-                    app:layout_constraintTop_toBottomOf="@id/nameTextView"
-                    app:layout_constraintStart_toStartOf="@id/nameTextView" />
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@id/nameTextView"
+                    app:layout_constraintTop_toBottomOf="@id/nameTextView" />
 
                 <androidx.constraintlayout.utils.widget.ImageFilterView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="5dp"
                     android:src="@drawable/user"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/nameTextView"
                     app:layout_constraintBottom_toBottomOf="@id/goodDayTextView"
-                    android:layout_marginEnd="5dp"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/nameTextView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat

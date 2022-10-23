@@ -1,5 +1,7 @@
 package com.dldmswo1209.chuncheonconquest.model
 
+import java.io.Serializable
+
 data class TourSpot(
     val id: Int,
     val title: String,
@@ -12,13 +14,13 @@ data class TourSpot(
     val latitude: Double,
     val longitude: Double
 
-){
+) : Serializable{
     constructor() : this(0,"","","","","","", listOf<Menu>() ,0.0,0.0)
 }
 
 data class Menu(
     val menu: String,
     val price: String
-){
+): Serializable{
     constructor() : this("","")
 }

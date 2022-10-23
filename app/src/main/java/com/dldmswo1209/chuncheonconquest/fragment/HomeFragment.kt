@@ -13,10 +13,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
+import com.dldmswo1209.chuncheonconquest.MainActivity
 import com.dldmswo1209.chuncheonconquest.adapter.HomeBannerAdapter
 import com.dldmswo1209.chuncheonconquest.adapter.TourListAdapter
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentHomeBinding
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
+import com.dldmswo1209.chuncheonconquest.model.User
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -47,6 +49,11 @@ class HomeFragment : Fragment() {
         showBottomDialog(it)
     }
 
+    private lateinit var userInfo : User
+    private lateinit var cafeList: ArrayList<TourSpot>
+    private lateinit var restaurantList : ArrayList<TourSpot>
+    private lateinit var tourList : ArrayList<TourSpot>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -58,37 +65,24 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getUserInfo()
-        viewModel.getCafeList()
-        viewModel.getTourList()
-        viewModel.getRestaurantList()
+        // 로딩화면에서 데이터를 로드하고 전달받음
+        userInfo = (activity as MainActivity).getUserInfo()
+        cafeList = (activity as MainActivity).getCafeList()
+        restaurantList = (activity as MainActivity).getRestaurantList()
+        tourList = (activity as MainActivity).getTourList()
 
+        bannerAdapter.submitList(cafeList)
+        binding.viewPager.adapter = bannerAdapter
+        binding.viewPager.setCurrentItem(bannerPosition, false)
+
+        cafeListAdapter.submitList(cafeList)
         binding.cafeRecyclerView.adapter = cafeListAdapter
+        tourListAdapter.submitList(tourList)
         binding.tourRecyclerView.adapter = tourListAdapter
+        restaurantListAdapter.submitList(restaurantList)
         binding.restaurantRecyclerView.adapter = restaurantListAdapter
 
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-            binding.nameTextView.text = "${it.name} 님"
-        })
-
-        viewModel.cafeList.observe(viewLifecycleOwner, Observer {
-            bannerAdapter.submitList(it)
-            binding.viewPager.adapter = bannerAdapter
-            binding.viewPager.setCurrentItem(bannerPosition, false)
-
-            cafeListAdapter.submitList(it)
-            cafeListAdapter.notifyDataSetChanged()
-        })
-
-        viewModel.tourList.observe(viewLifecycleOwner, Observer {
-            tourListAdapter.submitList(it)
-            tourListAdapter.notifyDataSetChanged()
-        })
-
-        viewModel.restaurantList.observe(viewLifecycleOwner, Observer {
-            restaurantListAdapter.submitList(it)
-            restaurantListAdapter.notifyDataSetChanged()
-        })
+        binding.nameTextView.text = userInfo.name
 
         binding.viewPager.apply {
             clipToOutline = true
