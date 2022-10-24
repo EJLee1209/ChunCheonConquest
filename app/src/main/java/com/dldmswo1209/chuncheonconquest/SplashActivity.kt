@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dldmswo1209.chuncheonconquest.databinding.ActivitySplashBinding
@@ -40,9 +41,11 @@ class SplashActivity : AppCompatActivity() {
             viewModel.getRestaurantList()
             viewModel.getUserInfo()
         }
+        Log.d("testt", uid.toString())
         viewModel.user.observe(this, Observer {
             user = it
             loadCount++
+            Log.d("testt", it.toString())
         })
 
         viewModel.cafeList.observe(this, Observer {
@@ -67,21 +70,18 @@ class SplashActivity : AppCompatActivity() {
         })
 
         CoroutineScope(Dispatchers.Default).launch {
-            async {
-                delay(2000) // 데이터가 로드될때까지 최소 2초는 기다림
-            }.await()
-
             if(uid == ""){
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             }else{
-                if(loadCount == 4){ // 모든 데이터가 로드 됐으면 메인 액티비티로 이동
-                    val intent = Intent(this@SplashActivity, MainActivity::class.java)
-                    intent.putExtra("user", user)
-                    intent.putExtra("cafeList", cafeList)
-                    intent.putExtra("tourList", tourList)
-                    intent.putExtra("restaurantList", restaurantList)
-                    startActivity(intent)
+                while(loadCount != 4){
+                    // 모든 데이터가 로드될 때까지 기다림
                 }
+                val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                intent.putExtra("user", user)
+                intent.putExtra("cafeList", cafeList)
+                intent.putExtra("tourList", tourList)
+                intent.putExtra("restaurantList", restaurantList)
+                startActivity(intent)
             }
         }
 

@@ -61,7 +61,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
             }
             _cafeList.postValue(cafes)
         }
-
     }
 
     fun getTourList() = viewModelScope.launch {
