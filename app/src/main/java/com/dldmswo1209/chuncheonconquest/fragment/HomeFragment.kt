@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.MainActivity
 import com.dldmswo1209.chuncheonconquest.adapter.HomeBannerAdapter
 import com.dldmswo1209.chuncheonconquest.adapter.TourListAdapter
@@ -65,11 +66,26 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 로딩화면에서 데이터를 로드하고 전달받음
-        userInfo = (activity as MainActivity).getUserInfo()
-        cafeList = (activity as MainActivity).getCafeList()
-        restaurantList = (activity as MainActivity).getRestaurantList()
-        tourList = (activity as MainActivity).getTourList()
+        getDataFromMainActivity()
+        initView()
+
+        viewModel.user.observe(viewLifecycleOwner, Observer {
+            setUserNameImage(it)
+        })
+
+
+    }
+    private fun setUserNameImage(user: User){
+        binding.nameTextView.text = user.name
+        if(userInfo.imageUri != null){
+            Glide.with(binding.root)
+                .load(user.imageUri)
+                .circleCrop()
+                .into(binding.profileImageView)
+        }
+    }
+    private fun initView(){
+        setUserNameImage(userInfo)
 
         bannerAdapter.submitList(cafeList)
         binding.viewPager.adapter = bannerAdapter
@@ -81,8 +97,6 @@ class HomeFragment : Fragment() {
         binding.tourRecyclerView.adapter = tourListAdapter
         restaurantListAdapter.submitList(restaurantList)
         binding.restaurantRecyclerView.adapter = restaurantListAdapter
-
-        binding.nameTextView.text = userInfo.name
 
         binding.viewPager.apply {
             clipToOutline = true
@@ -99,6 +113,14 @@ class HomeFragment : Fragment() {
                 }
             })
         }
+    }
+
+    private fun getDataFromMainActivity(){
+        // 로딩화면에서 데이터를 로드하고 전달받음
+        userInfo = (activity as MainActivity).getUserInfo()
+        cafeList = (activity as MainActivity).getCafeList()
+        restaurantList = (activity as MainActivity).getRestaurantList()
+        tourList = (activity as MainActivity).getTourList()
     }
 
     private fun showBottomDialog(item: TourSpot){

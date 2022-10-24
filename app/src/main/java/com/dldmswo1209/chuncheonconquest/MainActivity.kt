@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dldmswo1209.chuncheonconquest.databinding.ActivityMainBinding
 import com.dldmswo1209.chuncheonconquest.fragment.HomeFragment
 import com.dldmswo1209.chuncheonconquest.fragment.MapFragment
+import com.dldmswo1209.chuncheonconquest.fragment.MyPageFragment
 import com.dldmswo1209.chuncheonconquest.fragment.PostFragment
 import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
@@ -33,23 +34,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val intent = intent
 
+        getDataFromIntent()
+        initView()
+    }
+    private fun getDataFromIntent(){
         userInfo = intent.getSerializableExtra("user") as User
         cafeList = intent.getSerializableExtra("cafeList") as ArrayList<TourSpot>
         restaurantList = intent.getSerializableExtra("restaurantList") as ArrayList<TourSpot>
         tourList = intent.getSerializableExtra("tourList") as ArrayList<TourSpot>
         postList = intent.getSerializableExtra("postList") as MutableList<Post>
-
-        Log.d("testt", postList.toString())
-
-        initView()
     }
 
-    fun initView(){
+    private fun initView(){
         val home = HomeFragment()
         val map = MapFragment()
         val post = PostFragment()
+        val myPage = MyPageFragment()
         replaceFragment(home)
 
         binding.bottomNavigationView.setOnItemSelectedListener {
@@ -62,6 +63,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.map -> {
                     replaceFragment(map)
+                }
+                R.id.myPage -> {
+                    replaceFragment(myPage)
                 }
             }
             true

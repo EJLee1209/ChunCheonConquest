@@ -15,6 +15,11 @@
         android:icon="@drawable/menu_map_selector"
         android:title=""/>
 
+    <item
+        android:id="@+id/myPage"
+        android:icon="@drawable/menu_mypage_selector"
+        android:title=""/>
+
 
 
 </menu>

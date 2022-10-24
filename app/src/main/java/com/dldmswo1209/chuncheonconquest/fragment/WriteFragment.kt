@@ -29,6 +29,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.*
 import java.io.File
 import java.util.*
 
@@ -103,8 +104,16 @@ class WriteFragment : BottomSheetDialogFragment() {
                 Toast.makeText(requireContext(), "내용을 모두 작성해주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val post = Post(userInfo.uid,title, imageUrl, content, date)
-            viewModel.uploadPost(post, imageUri!!, userInfo)
+            val post = Post(userInfo.uid,title, imageUrl,null, content, date)
+            CoroutineScope(Dispatchers.IO).launch {
+                async {
+                    viewModel.uploadPost(post, imageUri!!, userInfo)
+                    delay(1000) // 이미지 업로드 시간이 꽤 걸려서 딜레이를 1초를 줬음
+                }.await()
+                viewModel.getPost(userInfo)
+            }
+
+
             dialog?.dismiss()
         }
 

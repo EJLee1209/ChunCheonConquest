@@ -25,7 +25,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE)
     val uid = sharedPreferences.getString("uid", "").toString()
     val db = Firebase.database.reference
-    var storageRef = FirebaseStorage.getInstance().reference.child("images")
+    var storageRef = FirebaseStorage.getInstance().reference
 
     private val _user = MutableLiveData<User>()
     val user : LiveData<User>
@@ -88,7 +88,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     private fun uploadImage(imageUri: Uri, userInfo: User) = viewModelScope.launch {
         val imgFileName = "${userInfo.uid}_${imageUri.lastPathSegment.toString()}.png"
-        storageRef.child(imgFileName).putFile(imageUri).addOnSuccessListener {
+        storageRef.child("images").child(imgFileName).putFile(imageUri).addOnSuccessListener {
             Log.d("testt", "ok")
         }
     }
@@ -99,12 +99,13 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun getPost(userInfo: User) = viewModelScope.launch {
+        Log.d("testt", "getPost!!")
         val posts = mutableListOf<Post>()
         var count = 0
         db.child("Post").child(userInfo.uid).get().addOnSuccessListener { dataSnapshot ->
             dataSnapshot.children.forEach { data ->
                 val post = data.getValue(Post::class.java) as Post
-                FirebaseStorage.getInstance().reference.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 uri 가져오기
+                storageRef.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 uri 가져오기
                     post.imageUri = it.toString()
                     posts.add(post)
                     count+=1
@@ -114,6 +115,29 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
                             _postList.postValue(posts) // 업데이트
                     }
             }
+        }
+    }
+
+    fun updateUserInfo(user: User, imageUri: Uri?) = viewModelScope.launch {
+        if(imageUri == null){
+            db.child("Users").child(uid).child("information").setValue(user) // 데이터 갱신
+                .addOnSuccessListener {
+                    getUserInfo() // 업데이트된 유저 정보 가져오기
+                }
+        }
+        else {
+            val update = user
+            val imgFileName = "${user.uid}_${imageUri.lastPathSegment.toString()}.png"
+            storageRef.child("profile_images").child(user.uid).child(imgFileName).putFile(imageUri)
+                .addOnSuccessListener { // 이미지 업로드
+                    storageRef.child(user.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 다운로드
+                        update.imageUri = it.toString() // 다운로드 받은 이미지 uri 를 업데이트할 객체에 넣어줌
+                        db.child("Users").child(uid).child("information").setValue(update) // 데이터 갱신
+                            .addOnSuccessListener {
+                                getUserInfo() // 업데이트된 유저 정보 가져오기
+                            }
+                    }
+                }
         }
     }
 
