@@ -10,6 +10,7 @@ import com.dldmswo1209.chuncheonconquest.databinding.ActivityMainBinding
 import com.dldmswo1209.chuncheonconquest.fragment.HomeFragment
 import com.dldmswo1209.chuncheonconquest.fragment.MapFragment
 import com.dldmswo1209.chuncheonconquest.fragment.PostFragment
+import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.dldmswo1209.chuncheonconquest.model.User
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cafeList : ArrayList<TourSpot>
     private lateinit var restaurantList : ArrayList<TourSpot>
     private lateinit var tourList : ArrayList<TourSpot>
+    private lateinit var postList: MutableList<Post>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,9 @@ class MainActivity : AppCompatActivity() {
         cafeList = intent.getSerializableExtra("cafeList") as ArrayList<TourSpot>
         restaurantList = intent.getSerializableExtra("restaurantList") as ArrayList<TourSpot>
         tourList = intent.getSerializableExtra("tourList") as ArrayList<TourSpot>
+        postList = intent.getSerializableExtra("postList") as MutableList<Post>
+
+        Log.d("testt", postList.toString())
 
         initView()
     }
@@ -80,5 +85,8 @@ class MainActivity : AppCompatActivity() {
     }
     fun getTourList() : ArrayList<TourSpot>{
         return tourList
+    }
+    fun getPostList() : MutableList<Post>{
+        return postList
     }
 }

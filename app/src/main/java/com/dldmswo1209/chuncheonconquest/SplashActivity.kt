@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dldmswo1209.chuncheonconquest.databinding.ActivitySplashBinding
+import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.dldmswo1209.chuncheonconquest.model.User
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
@@ -25,6 +26,7 @@ class SplashActivity : AppCompatActivity() {
     private val tourList = arrayListOf<TourSpot>()
     private val cafeList = arrayListOf<TourSpot>()
     private val restaurantList = arrayListOf<TourSpot>()
+    private val postList = arrayListOf<Post>()
     private var loadCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,16 +38,16 @@ class SplashActivity : AppCompatActivity() {
         if(uid != ""){
             // 로그인 한적이 있다면
             // 데이터를 가져옴
+            // 데이터 로딩을 스플래시 화면에서 함으로써 데이터 로드 지연시간을 없앤다.
             viewModel.getTourList()
             viewModel.getCafeList()
             viewModel.getRestaurantList()
             viewModel.getUserInfo()
         }
-        Log.d("testt", uid.toString())
         viewModel.user.observe(this, Observer {
             user = it
             loadCount++
-            Log.d("testt", it.toString())
+            viewModel.getPost(it)
         })
 
         viewModel.cafeList.observe(this, Observer {
@@ -68,12 +70,18 @@ class SplashActivity : AppCompatActivity() {
             }
             loadCount++
         })
+        viewModel.postList.observe(this, Observer {
+            it.forEach { post ->
+                postList.add(post)
+            }
+            loadCount++
+        })
 
         CoroutineScope(Dispatchers.Default).launch {
             if(uid == ""){
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             }else{
-                while(loadCount != 4){
+                while(loadCount != 5){
                     // 모든 데이터가 로드될 때까지 기다림
                 }
                 val intent = Intent(this@SplashActivity, MainActivity::class.java)
@@ -81,6 +89,7 @@ class SplashActivity : AppCompatActivity() {
                 intent.putExtra("cafeList", cafeList)
                 intent.putExtra("tourList", tourList)
                 intent.putExtra("restaurantList", restaurantList)
+                intent.putExtra("postList", postList)
                 startActivity(intent)
             }
         }

@@ -1,5 +1,6 @@
 package com.dldmswo1209.chuncheonconquest.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -16,13 +17,10 @@ class PostListAdapter: ListAdapter<Post, PostListAdapter.ViewHolder>(diffUtil) {
         fun bind(post: Post){
             binding.titleTextView.text = post.title
             binding.dateTextView.text = post.date
-
-            FirebaseStorage.getInstance().reference.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener {
-                Glide.with(binding.root)
-                    .load(it)
-                    .centerCrop()
-                    .into(binding.imageView)
-            }
+            Glide.with(binding.root)
+                .load(post.imageUri)
+                .centerCrop()
+                .into(binding.imageView)
         }
     }
 

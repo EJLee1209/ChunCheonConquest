@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.dldmswo1209.chuncheonconquest.model.User
@@ -99,14 +100,23 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     fun getPost(userInfo: User) = viewModelScope.launch {
         val posts = mutableListOf<Post>()
-        db.child("Post").child(userInfo.uid).get().addOnSuccessListener {
-            it.children.forEach { data ->
+        var count = 0
+        db.child("Post").child(userInfo.uid).get().addOnSuccessListener { dataSnapshot ->
+            dataSnapshot.children.forEach { data ->
                 val post = data.getValue(Post::class.java) as Post
-                posts.add(post)
+                FirebaseStorage.getInstance().reference.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 uri 가져오기
+                    post.imageUri = it.toString()
+                    posts.add(post)
+                    count+=1
+                }
+                    .addOnCompleteListener {
+                        if(count == dataSnapshot.childrenCount.toInt()) // 모든 게시물을 가져왔으면
+                            _postList.postValue(posts) // 업데이트
+                    }
             }
-            _postList.postValue(posts)
         }
     }
+
 
 
 }
