@@ -23,7 +23,6 @@ import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 
 class MapFragment : Fragment(), OnMapReadyCallback {
-
     private lateinit var binding: FragmentMapBinding
     private lateinit var naverMap: NaverMap
     private val viewModel : MainViewModel by activityViewModels()
@@ -42,7 +41,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val fm = childFragmentManager
         val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
         mapFragment?.getMapAsync(this)
-
     }
 
     override fun onMapReady(map: NaverMap) {
@@ -78,7 +76,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     width = 70
                     height = 90
                 }
-
             }
         })
 

@@ -37,6 +37,18 @@ class DetailTourBottomSheetFragment(val item: TourSpot) : BottomSheetDialogFragm
     private lateinit var naverMap: NaverMap
     private lateinit var tourSpot : TourSpot
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), theme)
+        bottomSheetDialog.setOnShowListener { dialog ->
+            val bottomSheet =
+                (dialog as BottomSheetDialog).findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet) ?: return@setOnShowListener
+            BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED // 다이얼로그를 전체화면으로 보여주기
+            BottomSheetBehavior.from(bottomSheet).skipCollapsed = true // 드래그시 자동 붕괴
+            BottomSheetBehavior.from(bottomSheet).isHideable = true
+        }
+        return bottomSheetDialog
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -48,10 +60,8 @@ class DetailTourBottomSheetFragment(val item: TourSpot) : BottomSheetDialogFragm
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initView()
         clickEvent()
-
     }
 
     private fun clickEvent(){
@@ -60,11 +70,9 @@ class DetailTourBottomSheetFragment(val item: TourSpot) : BottomSheetDialogFragm
             intent.putExtra("url", item.naverUrl)
             startActivity(intent)
         }
-
         binding.cancelButton.setOnClickListener {
             dialog?.dismiss()
         }
-
         binding.callLayout.setOnClickListener {
             // Uri를 이용해서 정보 저장
             val myUri = Uri.parse("tel:${tourSpot.tel}")
@@ -73,17 +81,9 @@ class DetailTourBottomSheetFragment(val item: TourSpot) : BottomSheetDialogFragm
             // 이동
             startActivity(myIntent)
         }
-
     }
 
     private fun initView(){
-        // 팝업 생성 시 전체화면으로 띄우기
-        val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-        val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        behavior.isDraggable = false // 드래그 금지
-
-
         val fm = childFragmentManager
         val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
         mapFragment?.getMapAsync(this)
@@ -102,7 +102,6 @@ class DetailTourBottomSheetFragment(val item: TourSpot) : BottomSheetDialogFragm
         menuListAdapter.submitList(item.menu)
         binding.menuRecyclerView.adapter = menuListAdapter
     }
-
 
     override fun onMapReady(map: NaverMap) {
         naverMap = map

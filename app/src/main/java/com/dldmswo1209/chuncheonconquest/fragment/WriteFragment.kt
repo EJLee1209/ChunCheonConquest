@@ -2,6 +2,7 @@ package com.dldmswo1209.chuncheonconquest.fragment
 
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -12,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -24,6 +26,7 @@ import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.User
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.storage.FirebaseStorage
 import java.io.File
@@ -61,6 +64,18 @@ class WriteFragment : BottomSheetDialogFragment() {
         const val REQ_GALLERY = 1
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), theme)
+        bottomSheetDialog.setOnShowListener { dialog ->
+            val bottomSheet =
+                (dialog as BottomSheetDialog).findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet) ?: return@setOnShowListener
+            BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED // 다이얼로그를 전체화면으로 보여주기
+            BottomSheetBehavior.from(bottomSheet).skipCollapsed = true // 드래그시 자동 붕괴
+            BottomSheetBehavior.from(bottomSheet).isHideable = true
+        }
+        return bottomSheetDialog
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -71,11 +86,6 @@ class WriteFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // 팝업 생성 시 전체화면으로 띄우기
-        val bottomSheet = dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-        val behavior = BottomSheetBehavior.from<View>(bottomSheet!!)
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-        behavior.isDraggable = false // 드래그 금지
 
         userInfo = (activity as MainActivity).getUserInfo()
 
