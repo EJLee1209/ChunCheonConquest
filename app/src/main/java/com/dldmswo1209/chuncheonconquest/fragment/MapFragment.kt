@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -12,13 +13,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.dldmswo1209.chuncheonconquest.MainActivity
 import com.dldmswo1209.chuncheonconquest.R
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentMapBinding
+import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
 import com.google.android.gms.location.*
 import com.naver.maps.geometry.LatLng
@@ -28,6 +33,12 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
+import java.util.*
+import kotlin.math.acos
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.random.Random
+import kotlin.random.Random.Default.nextInt
 
 class MapFragment : Fragment(), OnMapReadyCallback {
     private val permission_request = 99
@@ -36,13 +47,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val cafeMakerList = mutableListOf<Marker>()
     private val restaurantMarkerList = mutableListOf<Marker>()
     private val tourMarkerList = mutableListOf<Marker>()
+    private val cafeList = mutableListOf<TourSpot>()
+    private val restaurantList = mutableListOf<TourSpot>()
+    private val tourList = mutableListOf<TourSpot>()
+    private val viewModel : MainViewModel by activityViewModels()
+
+    private var currentLocation: Location? = null
     //권한 가져오기
     var permissions = arrayOf(
         android.Manifest.permission.ACCESS_FINE_LOCATION,
         android.Manifest.permission.ACCESS_COARSE_LOCATION
     )
-
-    private val viewModel : MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,23 +122,40 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 it.map = null
             }
         }
+
+        binding.locationButton.setOnClickListener {
+            currentLocation ?: return@setOnClickListener
+            moveCamera(currentLocation!!)
+
+            cafeList.forEach {
+                iAmThere(it)
+            }
+            restaurantList.forEach {
+                iAmThere(it)
+            }
+            tourList.forEach {
+                iAmThere(it)
+            }
+
+        }
     }
 
-    fun setLastLocation(location: Location) {
+    private fun iAmThere(tour: TourSpot){
+        val distance = calDist(currentLocation!!.latitude,currentLocation!!.longitude, tour.latitude, tour.longitude)
+        if(distance <= 10) { // 관광지와 현재 위치의 거리가 10미터 이내인 경우
+            Log.d("test", "현재 위치와 ${tour.title}의 거리 : ${distance}m")
+            (activity as MainActivity).sendNotification(tour) // 알림을 보냄
+        }
+    }
+
+    fun moveCamera(location: Location){
         val myLocation = LatLng(location.latitude, location.longitude)
 
         val cameraUpdate = CameraUpdate.scrollTo(myLocation)
+        cameraUpdate.animate(CameraAnimation.Fly)
         naverMap.moveCamera(cameraUpdate)
         naverMap.maxZoom = 18.0
         naverMap.minZoom = 5.0
-        // 위치 오버레이의 가시성은 기본적으로 false로 지정되어 있습니다. 가시성을 true로 변경하면 지도에 위치 오버레이가 나타납니다.
-        // 파랑색 점, 현재 위치 표시
-        naverMap.locationOverlay.run {
-            isVisible = true
-            position = LatLng(location!!.latitude, location!!.longitude)
-        }
-
-        //marker.map = null
     }
     //내 위치를 가져오는 코드
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient //자동으로 gps값을 받아온다.
@@ -142,13 +174,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
                 for ((i, location) in locationResult.locations.withIndex()) {
+                    currentLocation = location
                     Log.d("location: ", "${location.latitude}, ${location.longitude}")
-                    setLastLocation(location)
+                    // 위치 오버레이의 가시성은 기본적으로 false로 지정되어 있습니다. 가시성을 true로 변경하면 지도에 위치 오버레이가 나타납니다.
+                    // 파랑색 점, 현재 위치 표시
+                    naverMap.locationOverlay.run {
+                        isVisible = true
+                        position = LatLng(location.latitude, location.longitude)
+                    }
+
                 }
             }
         }
         //location 요청 함수 호출 (locationRequest, locationCallback)
-
         fusedLocationProviderClient.requestLocationUpdates(
             locationRequest,
             locationCallback,
@@ -160,10 +198,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(map: NaverMap) {
         naverMap = map
+
+
         var cameraUpdate = CameraUpdate.scrollTo(LatLng(37.8571641,127.739802))
         map.moveCamera(cameraUpdate)
         map.moveCamera(CameraUpdate.zoomTo(12.0))
-
 
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext()) //gps 자동으로 받아오기
@@ -175,6 +214,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     fun getMarker(){
         viewModel.getCafeList()
         viewModel.cafeList.observe(viewLifecycleOwner, Observer {
+            cafeList.clear()
             it.forEach { tour ->
                 val marker = Marker()
                 marker.apply {
@@ -185,27 +225,30 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     height = 90
                 }
                 cafeMakerList.add(marker)
-
+                cafeList.add(tour)
             }
         })
 
         viewModel.getRestaurantList()
         viewModel.restaurantList.observe(viewLifecycleOwner, Observer {
-            it.forEach { rest ->
+            restaurantList.clear()
+            it.forEach { tour ->
                 val marker = Marker()
                 marker.apply {
-                    position = LatLng(rest.latitude, rest.longitude)
+                    position = LatLng(tour.latitude, tour.longitude)
                     icon = MarkerIcons.BLACK
                     iconTintColor = Color.GREEN
                     width = 70
                     height = 90
                 }
                 restaurantMarkerList.add(marker)
+                restaurantList.add(tour)
             }
         })
 
         viewModel.getTourList()
         viewModel.tourList.observe(viewLifecycleOwner, Observer {
+            tourList.clear()
             it.forEach { tour ->
                 val marker = Marker()
                 marker.apply {
@@ -216,6 +259,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     height = 90
                 }
                 tourMarkerList.add(marker)
+                tourList.add(tour)
             }
         })
     }
@@ -236,4 +280,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             } //권한
         mapFragment.getMapAsync(this)
     } //권한이 있다면 onMapReady연결
+
+    private fun calDist(lat1:Double, lon1:Double, lat2:Double, lon2:Double) : Long{
+        val EARTH_R = 6371000.0
+        val rad = Math.PI / 180
+        val radLat1 = rad * lat1
+        val radLat2 = rad * lat2
+        val radDist = rad * (lon1 - lon2)
+
+        var distance = sin(radLat1) * sin(radLat2)
+        distance += cos(radLat1) * cos(radLat2) * cos(radDist)
+        val ret = EARTH_R * acos(distance)
+
+        return Math.round(ret) // 미터 단위
+    }
 }

@@ -8,7 +8,8 @@ data class User(
     val pw: String,
     var name: String,
     var imageUrl: String? = null, // 스토리지에 저장할 이미지 경로
-    var imageUri: String? = null // 스토리지에서 가져올 이미지 uri
+    var imageUri: String? = null, // 스토리지에서 가져올 이미지 uri
+    var conquerCount: Int = 0,
 ): Serializable{
     constructor() : this("","","","")
 }

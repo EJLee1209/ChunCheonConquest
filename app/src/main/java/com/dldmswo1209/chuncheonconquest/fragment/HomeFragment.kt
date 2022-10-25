@@ -71,6 +71,7 @@ class HomeFragment : Fragment() {
 
         viewModel.user.observe(viewLifecycleOwner, Observer {
             setUserNameImage(it)
+            Log.d("testt", it.conquerCount.toString())
         })
 
 

@@ -49,6 +49,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     // 유저 정보 가져오기
     fun getUserInfo() = viewModelScope.launch {
         db.child("Users").child(uid).child("information").get().addOnSuccessListener {
+            Log.d("testt", it.value.toString())
             _user.postValue(it.getValue(User::class.java) as User)
         }
     }
@@ -155,7 +156,13 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun deletePost(post: Post) = viewModelScope.launch {
-        val dbRef = db.child("Post/${post.user.uid}/${post.key}").removeValue()
+        db.child("Post/${post.user.uid}/${post.key}").removeValue()
+    }
+
+    fun conquerCountUp(user: User, tourSpot: TourSpot) = viewModelScope.launch {
+        val update = user
+        update.conquerCount = user.conquerCount + 1
+        db.child("Users/${user.uid}/information").setValue(update)
     }
 
 
