@@ -95,26 +95,27 @@ class WriteFragment : BottomSheetDialogFragment() {
         }
 
         binding.okButton.setOnClickListener {
-            var title = binding.titleEditText.text.toString()
-            var date = binding.dateTextView.text.toString()
-            var content = binding.contentEditText.text.toString()
-            var imageUrl = "images/${userInfo.uid}_${imageUri?.lastPathSegment.toString()}.png"
+            val title = binding.titleEditText.text.toString()
+            val date = binding.dateTextView.text.toString()
+            val content = binding.contentEditText.text.toString()
 
             if(title == "" || date == "" || content == "") {
                 Toast.makeText(requireContext(), "내용을 모두 작성해주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val post = Post(userInfo.uid,title, imageUrl,null, content, date)
-            CoroutineScope(Dispatchers.IO).launch {
-                async {
-                    viewModel.uploadPost(post, imageUri!!, userInfo)
-                    delay(1000) // 이미지 업로드 시간이 꽤 걸려서 딜레이를 1초를 줬음
-                }.await()
-                viewModel.getPost(userInfo)
+            // 이미지가 없는 경우
+            if(imageUri == null){
+                val post = Post("",title, null,null, content, date,userInfo)
+                viewModel.uploadPost(post, null)
             }
-
-
+            // 이미지가 있는 경우
+            else{
+                val imageUrl = "images/${userInfo.uid}_${imageUri?.lastPathSegment.toString()}.png"
+                val post = Post("",title, imageUrl,null, content, date,userInfo)
+                viewModel.uploadPost(post, imageUri!!)
+            }
             dialog?.dismiss()
+            (activity as MainActivity).showLottie() // 로딩 애니메이션 보여주기
         }
 
         binding.imageView.setOnClickListener {

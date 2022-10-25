@@ -12,6 +12,9 @@ import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.dldmswo1209.chuncheonconquest.model.User
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -42,10 +45,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val _restaurantList = MutableLiveData<List<TourSpot>>()
     val restaurantList : LiveData<List<TourSpot>>
         get() = _restaurantList
-
-    private val _postList = MutableLiveData<List<Post>>()
-    val postList : LiveData<List<Post>>
-        get() = _postList
 
 
     fun getUserInfo() = viewModelScope.launch {
@@ -86,38 +85,24 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
-    private fun uploadImage(imageUri: Uri, userInfo: User) = viewModelScope.launch {
-        val imgFileName = "${userInfo.uid}_${imageUri.lastPathSegment.toString()}.png"
-        storageRef.child("images").child(imgFileName).putFile(imageUri).addOnSuccessListener {
-            Log.d("testt", "ok")
-        }
-    }
-
-    fun uploadPost(post: Post, imageUri: Uri, userInfo: User) = viewModelScope.launch {
-        db.child("Post").child(userInfo.uid).child("${post.title}_${post.date}").setValue(post)
-        uploadImage(imageUri, userInfo)
-    }
-
-    fun getPost(userInfo: User) = viewModelScope.launch {
-        Log.d("testt", "getPost!!")
-        val posts = mutableListOf<Post>()
-        var count = 0
-        db.child("Post").child(userInfo.uid).get().addOnSuccessListener { dataSnapshot ->
-            dataSnapshot.children.forEach { data ->
-                val post = data.getValue(Post::class.java) as Post
-                storageRef.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 uri 가져오기
-                    post.imageUri = it.toString()
-                    posts.add(post)
-                    count+=1
-                }
-                    .addOnCompleteListener {
-                        if(count == dataSnapshot.childrenCount.toInt()) // 모든 게시물을 가져왔으면
-                            _postList.postValue(posts) // 업데이트
+    fun uploadPost(post: Post, imageUri: Uri?) = viewModelScope.launch {
+        val dbRef = db.child("Post/${post.user.uid}").push()
+        val post_key = dbRef.key
+        if(imageUri == null){ // 이미지가 없는 경우
+            dbRef.setValue(post) // 그냥 업로드
+        }else{ // 이미지가 있는 경우
+            val newPost = post
+            newPost.key = post_key.toString()
+            val imgFileName = "${post.user.uid}_${imageUri.lastPathSegment.toString()}.png"
+            storageRef.child("images").child(imgFileName).putFile(imageUri) // 이미지 업로드
+                .addOnSuccessListener {
+                    storageRef.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 다운로드
+                        newPost.imageUri = it.toString() // 새로운 post 객체에 다운로드 받은 이미지의 uri 를 저장
+                        dbRef.setValue(post) // post 업로드
                     }
-            }
+                }
         }
     }
-
     fun updateUserInfo(user: User, imageUri: Uri?) = viewModelScope.launch {
         if(imageUri == null){
             db.child("Users").child(uid).child("information").setValue(user) // 데이터 갱신
@@ -141,6 +126,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun updatePost(post: Post) = viewModelScope.launch {
+        val dbRef = db.child("Post/${post.user.uid}/${post.key}").setValue(post)
+    }
 
 
 }

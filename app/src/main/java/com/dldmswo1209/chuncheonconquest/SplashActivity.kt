@@ -26,7 +26,6 @@ class SplashActivity : AppCompatActivity() {
     private val tourList = arrayListOf<TourSpot>()
     private val cafeList = arrayListOf<TourSpot>()
     private val restaurantList = arrayListOf<TourSpot>()
-    private val postList = arrayListOf<Post>()
     private var loadCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +46,6 @@ class SplashActivity : AppCompatActivity() {
         viewModel.user.observe(this, Observer {
             user = it
             loadCount++
-            viewModel.getPost(it)
         })
 
         viewModel.cafeList.observe(this, Observer {
@@ -70,18 +68,12 @@ class SplashActivity : AppCompatActivity() {
             }
             loadCount++
         })
-        viewModel.postList.observe(this, Observer {
-            it.forEach { post ->
-                postList.add(post)
-            }
-            loadCount++
-        })
 
         CoroutineScope(Dispatchers.Default).launch {
             if(uid == ""){
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             }else{
-                while(loadCount != 5){
+                while(loadCount != 4){
                     // 모든 데이터가 로드될 때까지 기다림
                 }
                 val intent = Intent(this@SplashActivity, MainActivity::class.java)
@@ -89,7 +81,6 @@ class SplashActivity : AppCompatActivity() {
                 intent.putExtra("cafeList", cafeList)
                 intent.putExtra("tourList", tourList)
                 intent.putExtra("restaurantList", restaurantList)
-                intent.putExtra("postList", postList)
                 startActivity(intent)
             }
         }

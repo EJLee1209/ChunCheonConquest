@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cafeList : ArrayList<TourSpot>
     private lateinit var restaurantList : ArrayList<TourSpot>
     private lateinit var tourList : ArrayList<TourSpot>
-    private lateinit var postList: MutableList<Post>
+    val post = PostFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,13 +43,11 @@ class MainActivity : AppCompatActivity() {
         cafeList = intent.getSerializableExtra("cafeList") as ArrayList<TourSpot>
         restaurantList = intent.getSerializableExtra("restaurantList") as ArrayList<TourSpot>
         tourList = intent.getSerializableExtra("tourList") as ArrayList<TourSpot>
-        postList = intent.getSerializableExtra("postList") as MutableList<Post>
     }
 
     private fun initView(){
         val home = HomeFragment()
         val map = MapFragment()
-        val post = PostFragment()
         val myPage = MyPageFragment()
         replaceFragment(home)
 
@@ -90,7 +88,8 @@ class MainActivity : AppCompatActivity() {
     fun getTourList() : ArrayList<TourSpot>{
         return tourList
     }
-    fun getPostList() : MutableList<Post>{
-        return postList
+    fun showLottie(){
+        post.showLottie()
     }
+
 }

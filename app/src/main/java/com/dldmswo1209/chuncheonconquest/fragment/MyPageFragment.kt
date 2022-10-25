@@ -54,13 +54,7 @@ class MyPageFragment : Fragment() {
 
         userInfo = (activity as MainActivity).getUserInfo()
 
-        binding.nameEditText.setText(userInfo.name)
-        if(userInfo.imageUri != null) {
-            Glide.with(binding.root)
-                .load(userInfo.imageUri)
-                .circleCrop()
-                .into(binding.profileImageView)
-        }
+        showMyProfile()
 
         binding.editButton.setOnClickListener {
             isEditMode = true
@@ -69,6 +63,7 @@ class MyPageFragment : Fragment() {
 
         binding.cancel.setOnClickListener {
             isEditMode = false
+            showMyProfile()
             hideUI()
         }
 
@@ -107,6 +102,16 @@ class MyPageFragment : Fragment() {
 
 
     }
+    private fun showMyProfile(){
+        binding.nameEditText.setText(userInfo.name)
+        if(userInfo.imageUri != null) {
+            Glide.with(binding.root)
+                .load(userInfo.imageUri)
+                .circleCrop()
+                .into(binding.profileImageView)
+        }
+    }
+
     private fun showUI(){
         binding.cameraImageView.visibility = View.VISIBLE
         binding.cancel.visibility = View.VISIBLE
@@ -177,7 +182,7 @@ class MyPageFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
+        isEditMode = false
         Log.d("testt", "onResume")
 
     }
