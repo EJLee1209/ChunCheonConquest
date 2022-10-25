@@ -26,8 +26,10 @@ class PostListAdapter: ListAdapter<Post, PostListAdapter.ViewHolder>(diffUtil) {
                 binding.imageView.visibility = View.VISIBLE
                 Glide.with(binding.root)
                     .load(post.imageUri)
-                    .circleCrop()
+                    .centerCrop()
                     .into(binding.imageView)
+            }else{
+                binding.imageView.visibility = View.GONE
             }
 
             if(post.user.imageUri == null){
