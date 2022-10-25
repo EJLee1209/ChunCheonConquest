@@ -28,7 +28,9 @@ class PostFragment : Fragment() {
 
     private lateinit var binding : FragmentPostBinding
     private val viewModel: MainViewModel by activityViewModels()
-    private val postListAdapter = PostListAdapter()
+    private val postListAdapter = PostListAdapter{ post ->
+        showBottomDialog(post)
+    }
     private val postList = mutableListOf<Post>()
     private val eventListener = object: ValueEventListener{
         override fun onDataChange(snapshot: DataSnapshot) {
@@ -69,7 +71,7 @@ class PostFragment : Fragment() {
         binding.postRecyclerView.adapter = postListAdapter
 
         binding.writeButton.setOnClickListener{
-            showBottomDialog()
+            showBottomDialog(null)
         }
 
         viewModel.user.observe(viewLifecycleOwner, Observer { user->
@@ -84,8 +86,8 @@ class PostFragment : Fragment() {
 
     }
 
-    private fun showBottomDialog(){
-        val bottomSheet = WriteFragment()
+    private fun showBottomDialog(post: Post?){
+        val bottomSheet = WriteFragment(post)
         bottomSheet.show(parentFragmentManager, bottomSheet.tag)
     }
     fun showLottie(){

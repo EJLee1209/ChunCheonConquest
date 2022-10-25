@@ -13,7 +13,7 @@ import com.dldmswo1209.chuncheonconquest.databinding.PostItemBinding
 import com.dldmswo1209.chuncheonconquest.model.Post
 import com.google.firebase.storage.FirebaseStorage
 
-class PostListAdapter: ListAdapter<Post, PostListAdapter.ViewHolder>(diffUtil) {
+class PostListAdapter(val onClick: (Post) -> (Unit)): ListAdapter<Post, PostListAdapter.ViewHolder>(diffUtil) {
 
     inner class ViewHolder(val binding : PostItemBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(post: Post){
@@ -39,6 +39,10 @@ class PostListAdapter: ListAdapter<Post, PostListAdapter.ViewHolder>(diffUtil) {
                     .load(post.user.imageUri)
                     .circleCrop()
                     .into(binding.profileImageView)
+            }
+
+            binding.root.setOnClickListener {
+                onClick(post)
             }
         }
     }

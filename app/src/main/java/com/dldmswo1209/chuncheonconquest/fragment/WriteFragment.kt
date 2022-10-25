@@ -33,12 +33,14 @@ import kotlinx.coroutines.*
 import java.io.File
 import java.util.*
 
-class WriteFragment : BottomSheetDialogFragment() {
+class WriteFragment(val post: Post?) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentWriteBinding
     private var imageUri : Uri? = null
     private lateinit var userInfo: User
     private val viewModel : MainViewModel by activityViewModels()
+    private var mode = Mode.ORIGINAL
+
     // 이미지를 결과값으로 받는 변수
     private val imageResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -58,6 +60,10 @@ class WriteFragment : BottomSheetDialogFragment() {
             }
 
         }
+    }
+
+    enum class Mode{
+        EDIT, ORIGINAL
     }
 
     companion object{
@@ -88,9 +94,32 @@ class WriteFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if(post != null){
+            // 수정 모드
+            mode = Mode.EDIT
+
+            binding.titleEditText.setText(post.title)
+            binding.dateTextView.text = post.date
+            binding.contentEditText.setText(post.content)
+            if(post.imageUri != "") {
+                Glide.with(binding.root)
+                    .load(post.imageUri)
+                    .centerCrop()
+                    .into(binding.imageView)
+            }
+
+            binding.textView.text = "수정하기"
+            binding.cancelButton.text = "삭제"
+        }
+
         userInfo = (activity as MainActivity).getUserInfo()
 
         binding.cancelButton.setOnClickListener {
+            if(mode == Mode.EDIT){ // 수정 모드
+                // 게시물 삭제
+                post ?: return@setOnClickListener
+                viewModel.deletePost(post)
+            }
             dialog?.dismiss()
         }
 
@@ -105,14 +134,31 @@ class WriteFragment : BottomSheetDialogFragment() {
             }
             // 이미지가 없는 경우
             if(imageUri == null){
-                val post = Post("",title, null,null, content, date,userInfo)
-                viewModel.uploadPost(post, null)
+                val newPost = Post("",title, null,null, content, date,userInfo)
+                if(mode == Mode.ORIGINAL) // 일반 모드
+                    viewModel.uploadPost(newPost, null) // 게시물 업로드
+                else{ // 수정 모드
+                    // 게시물 수정
+                    post ?: return@setOnClickListener
+                    newPost.key = post.key
+                    newPost.imageUri = post.imageUri
+                    newPost.imageUrl = post.imageUrl
+
+                    viewModel.updatePost(newPost)
+                }
             }
             // 이미지가 있는 경우
             else{
                 val imageUrl = "images/${userInfo.uid}_${imageUri?.lastPathSegment.toString()}.png"
-                val post = Post("",title, imageUrl,null, content, date,userInfo)
-                viewModel.uploadPost(post, imageUri!!)
+                val newPost = Post("",title, imageUrl,null, content, date,userInfo)
+                if(mode == Mode.ORIGINAL) // 일반 모드
+                    viewModel.uploadPost(newPost, imageUri!!) // 게시물 업로드
+                else{
+                    // 게시물 수정
+                    post ?: return@setOnClickListener
+                    newPost.key = post.key
+                    viewModel.updatePost(newPost, imageUri)
+                }
             }
             dialog?.dismiss()
             (activity as MainActivity).showLottie() // 로딩 애니메이션 보여주기
