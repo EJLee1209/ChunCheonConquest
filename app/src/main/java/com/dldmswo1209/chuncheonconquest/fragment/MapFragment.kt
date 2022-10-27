@@ -20,8 +20,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.viewpager2.widget.ViewPager2
 import com.dldmswo1209.chuncheonconquest.MainActivity
 import com.dldmswo1209.chuncheonconquest.R
+import com.dldmswo1209.chuncheonconquest.adapter.TourViewPager
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentMapBinding
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
@@ -30,7 +32,9 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.*
 import com.naver.maps.map.MapFragment
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import java.util.*
@@ -40,7 +44,7 @@ import kotlin.math.sin
 import kotlin.random.Random
 import kotlin.random.Random.Default.nextInt
 
-class MapFragment : Fragment(), OnMapReadyCallback {
+class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
     private val permission_request = 99
     private lateinit var binding: FragmentMapBinding
     private lateinit var naverMap: NaverMap
@@ -51,6 +55,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private val restaurantList = mutableListOf<TourSpot>()
     private val tourList = mutableListOf<TourSpot>()
     private val viewModel : MainViewModel by activityViewModels()
+    private val viewPagerAdapter = TourViewPager()
 
     private var currentLocation: Location? = null
     //권한 가져오기
@@ -80,7 +85,21 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
         mapFragment?.getMapAsync(this)
 
+        binding.tourViewPager.adapter = viewPagerAdapter
+        binding.tourViewPager.registerOnPageChangeCallback(object: ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                val selected = viewPagerAdapter.currentList[position] // 현재 page 의 호텔 정보를 가져옴
+                val cameraUpdate = CameraUpdate.scrollTo(LatLng(selected.latitude, selected.longitude))
+                    .animate(CameraAnimation.Easing) // 애니메이션 추가
+                naverMap.moveCamera(cameraUpdate)
+
+            }
+        })
+
         clickEvent()
+
     }
 
     private fun clickEvent(){
@@ -95,6 +114,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             tourMarkerList.forEach {
                 it.map = null
             }
+
+            viewPagerAdapter.submitList(cafeList)
+            viewPagerAdapter.notifyDataSetChanged()
         }
 
         binding.tourFloatingButton.setOnClickListener {
@@ -108,6 +130,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             tourMarkerList.forEach {
                 it.map = naverMap
             }
+
+            viewPagerAdapter.submitList(tourList)
+            viewPagerAdapter.notifyDataSetChanged()
         }
 
         binding.restaurantFloatingButton.setOnClickListener {
@@ -121,6 +146,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             tourMarkerList.forEach {
                 it.map = null
             }
+
+            viewPagerAdapter.submitList(restaurantList)
+            viewPagerAdapter.notifyDataSetChanged()
         }
 
         binding.locationButton.setOnClickListener {
@@ -223,6 +251,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     iconTintColor = Color.RED
                     width = 70
                     height = 90
+                    tag = tour.id
+                    onClickListener = this@MapFragment
                 }
                 cafeMakerList.add(marker)
                 cafeList.add(tour)
@@ -240,6 +270,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     iconTintColor = Color.GREEN
                     width = 70
                     height = 90
+                    tag = tour.id
+                    onClickListener = this@MapFragment
                 }
                 restaurantMarkerList.add(marker)
                 restaurantList.add(tour)
@@ -257,10 +289,13 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     iconTintColor = Color.BLUE
                     width = 70
                     height = 90
+                    tag = tour.id
+                    onClickListener = this@MapFragment
                 }
                 tourMarkerList.add(marker)
                 tourList.add(tour)
             }
+            binding.tourFloatingButton.performClick()
         })
     }
 
@@ -293,5 +328,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val ret = EARTH_R * acos(distance)
 
         return Math.round(ret) // 미터 단위
+    }
+
+    override fun onClick(overlay: Overlay): Boolean {
+        // 마커 클릭 리스너
+        val selectedModel = viewPagerAdapter.currentList.firstOrNull {
+            it.id == overlay.tag // 리스트에 있는 tour id 와 현재 클릭 된 마커의 tag 값을 비교해서 처음으로 같은 경우의 모델을 저장 없으면 null
+        }
+
+        selectedModel?.let { // selectedModel 이 null 이 아니면 다음 코드를 실행
+            val position = viewPagerAdapter.currentList.indexOf(it) // 리스트에서 selectedModel 의 위치를 찾음
+            binding.tourViewPager.currentItem = position // 현재 viewPager 의 page 를 업데이트
+        }
+
+        return true
     }
 }
