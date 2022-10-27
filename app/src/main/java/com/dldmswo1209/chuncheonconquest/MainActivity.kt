@@ -105,6 +105,10 @@ class MainActivity : AppCompatActivity() {
     fun getTourList() : ArrayList<TourSpot>{
         return tourList
     }
+    fun getTotalCount() : Int{
+        return cafeList.size + restaurantList.size + tourList.size
+    }
+
     fun showLottie(){
         post.showLottie()
     }

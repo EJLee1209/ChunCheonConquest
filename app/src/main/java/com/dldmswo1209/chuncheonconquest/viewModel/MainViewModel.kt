@@ -46,6 +46,7 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val restaurantList : LiveData<List<TourSpot>>
         get() = _restaurantList
 
+
     // 유저 정보 가져오기
     fun getUserInfo() = viewModelScope.launch {
         db.child("Users").child(uid).child("information").get().addOnSuccessListener {
@@ -160,10 +161,15 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun conquerCountUp(user: User, tourSpot: TourSpot) = viewModelScope.launch {
-        val update = user
-        update.conquerCount = user.conquerCount + 1
-        db.child("Users/${user.uid}/information").setValue(update)
+        db.child("Users/${user.uid}/conquerSpot/${tourSpot.title}").setValue(tourSpot)
+            .addOnSuccessListener {
+                db.child("Users/${user.uid}/conquerSpot").get().addOnSuccessListener {
+                    val count = it.childrenCount
+                    db.child("Users/${user.uid}/conquerCount").setValue(count)
+                }
+            }
     }
+
 
 
 }

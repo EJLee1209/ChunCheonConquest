@@ -14,37 +14,18 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <wooooooak.com.library.DonutGaugeView
-                android:id="@+id/graph"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="12dp"
-                app:dg_start_value="70"
-                app:dg_end_value="100"
-                app:dg_top_text="춘천 정복"
-                app:dg_top_text_size="18sp"
-                app:dg_top_text_color="@color/white"
-                app:dg_middle_text_color="@color/white"
-                app:dg_front_circle_color="@color/green"
-                app:dg_unit_text=" %"
-                app:dg_unit_text_color="@color/white"
-                app:dg_bottom_text_color="@color/white"
-                app:dg_bottom_text="/100%"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/helloLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginEnd="12dp"
                 android:background="@drawable/item_rect"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/graph"
+                app:layout_constraintTop_toBottomOf="@id/viewPager"
                 android:padding="15dp">
 
                 <TextView
@@ -67,6 +48,46 @@
                     app:layout_constraintStart_toStartOf="@id/nameTextView"
                     app:layout_constraintTop_toBottomOf="@id/nameTextView" />
 
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:layout_constraintTop_toBottomOf="@id/goodDayTextView"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/dg_gray"/>
+
+                <TextView
+                    android:id="@+id/chunCheonConquerTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="춘천 정복"
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@id/line"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/chunCheonConquerTextView"
+                    android:layout_marginTop="12dp"
+                    android:progressDrawable="@drawable/custom_progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+                <TextView
+                    android:id="@+id/countTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/progressBar"
+                    android:text="총 200개 중 2개 정복 완료"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"/>
+
                 <androidx.constraintlayout.utils.widget.ImageFilterView
                     android:id="@+id/profileImageView"
                     android:layout_width="50dp"
@@ -83,9 +104,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="@id/helloLayout"
-                app:layout_constraintTop_toBottomOf="@id/helloLayout"
-                android:layout_marginTop="12dp">
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -120,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/viewPager"
-                app:layout_constraintTop_toBottomOf="@id/viewPager"
+                app:layout_constraintTop_toBottomOf="@id/helloLayout"
                 android:text="분위기 좋은 카페"
                 android:textColor="@color/white"
                 android:textSize="18sp"

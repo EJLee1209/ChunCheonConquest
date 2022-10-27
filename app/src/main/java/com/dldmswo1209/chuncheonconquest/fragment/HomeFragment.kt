@@ -21,6 +21,10 @@ import com.dldmswo1209.chuncheonconquest.databinding.FragmentHomeBinding
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.dldmswo1209.chuncheonconquest.model.User
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -49,11 +53,28 @@ class HomeFragment : Fragment() {
     private val restaurantListAdapter = TourListAdapter{
         showBottomDialog(it)
     }
+    private val listener = object: ValueEventListener{
+        override fun onDataChange(snapshot: DataSnapshot) {
+            val count = snapshot.value as Long
+            val conquerPercentage : Double = (count.toDouble() / totalCount.toDouble()) * 100
+
+            binding.countTextView.text = "${totalCount}개 중 ${count}개 정복 완료!"
+            binding.progressBar.progress = conquerPercentage.toInt()
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+
+        }
+
+    }
 
     private lateinit var userInfo : User
     private lateinit var cafeList: ArrayList<TourSpot>
     private lateinit var restaurantList : ArrayList<TourSpot>
     private lateinit var tourList : ArrayList<TourSpot>
+
+    private lateinit var db : DatabaseReference
+    private var totalCount : Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,6 +90,12 @@ class HomeFragment : Fragment() {
         getDataFromMainActivity()
         initView()
 
+        totalCount = (activity as MainActivity).getTotalCount()
+
+        db = Firebase.database.reference
+        db.child("Users/${userInfo.uid}/conquerCount").addValueEventListener(listener)
+
+
         viewModel.user.observe(viewLifecycleOwner, Observer {
             setUserNameImage(it)
             Log.d("testt", it.conquerCount.toString())
@@ -77,7 +104,7 @@ class HomeFragment : Fragment() {
 
     }
     private fun setUserNameImage(user: User){
-        binding.nameTextView.text = user.name
+        binding.nameTextView.text = "${user.name}님"
         if(userInfo.imageUri != null){
             Glide.with(binding.root)
                 .load(user.imageUri)
@@ -161,5 +188,10 @@ class HomeFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         autoScrollStop()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        db.removeEventListener(listener)
     }
 }
