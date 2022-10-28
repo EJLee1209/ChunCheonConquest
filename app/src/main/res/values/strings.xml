@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ChunCheonConquest</string>
+    <string name="app_name">춘천 정복</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

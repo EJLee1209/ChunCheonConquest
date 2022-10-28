@@ -12,12 +12,9 @@
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/drawable/image_outline.xml" value="0.2195" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/drawable/input_rect.xml" value="0.2" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/drawable/item_rect.xml" value="0.135" />
-        <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/drawable/menu_home_selector.xml" value="0.2125" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/drawable/menu_map_selector.xml" value="0.2195" />
-        <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/drawable/menu_mypage_selector.xml" value="0.2125" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/drawable/menu_post_selector.xml" value="0.2195" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/drawable/menu_selector.xml" value="0.2195" />
-        <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/drawable/no_image.xml" value="0.2125" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout-v31/banner_item.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout-v31/tour_item.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout/activity_login.xml" value="0.33" />
@@ -30,7 +27,6 @@
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout/fragment_map.xml" value="0.25" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout/fragment_maps.xml" value="0.36614583333333334" />
-        <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout/fragment_my_page.xml" value="0.33" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout/fragment_post.xml" value="0.3515625" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout/fragment_write.xml" value="0.33" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout/map_viewpager_item.xml" value="0.36614583333333334" />
@@ -38,7 +34,22 @@
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout/post_item.xml" value="0.33" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/layout/tour_item.xml" value="0.33" />
         <entry key="..\:/Users/dldms/Desktop/myApplications/ChunCheonConquest/app/src/main/res/menu/bottom_menu.xml" value="0.36614583333333334" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2502926549167498" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/activity_web_view.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/banner_item.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/fragment_detail_tour_bottom_sheet.xml" value="0.2834255894870623" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/fragment_my_page.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/fragment_post.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/fragment_write.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/map_viewpager_item.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/menu_item.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/post_item.xml" value="0.2223731884057971" />
+        <entry key="app/src/main/res/layout/tour_item.xml" value="0.2223731884057971" />
       </map>
     </option>
   </component>

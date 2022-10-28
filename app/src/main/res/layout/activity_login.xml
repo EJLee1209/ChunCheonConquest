@@ -20,9 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="춘천 정복"
+        android:fontFamily="@font/text_font"
         android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textSize="40sp" />
 
     <View
         android:layout_width="120dp"
@@ -130,9 +130,9 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="로그인"
-        android:textSize="16sp"
+        android:fontFamily="@font/text_font"
+        android:textSize="20sp"
         android:textColor="@color/white"
-        android:textStyle="bold"
         android:background="@drawable/green_button"
         android:layout_marginTop="20dp"/>
 

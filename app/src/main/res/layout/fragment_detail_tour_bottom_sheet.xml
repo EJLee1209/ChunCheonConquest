@@ -45,8 +45,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="투어 제목"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
+                        android:textSize="28sp"
+                        android:fontFamily="@font/text_font"
                         android:textColor="@color/white"
                         android:layout_marginStart="12dp"
                         android:layout_marginBottom="12dp"
@@ -90,8 +90,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="대표메뉴"
+                                android:fontFamily="@font/text_font"
                                 android:textColor="@color/white"
-                                android:textSize="16sp"
+                                android:textSize="20sp"
                                 android:textStyle="bold"
                                 android:layout_margin="30dp"/>
 
@@ -125,8 +126,9 @@
                                 app:layout_constraintStart_toEndOf="@id/infoImageView"
                                 android:layout_marginStart="20dp"
                                 android:text="소개 글"
+                                android:fontFamily="@font/text_font"
                                 android:textColor="@color/white"
-                                android:textSize="13sp"/>
+                                android:textSize="17sp"/>
 
                             <TextView
                                 android:id="@+id/infoTextView"
@@ -136,9 +138,10 @@
                                 app:layout_constraintStart_toEndOf="@id/infoImageView"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 android:text="정보가 없습니다."
+                                android:fontFamily="@font/text_font"
                                 android:layout_marginStart="20dp"
                                 android:textColor="#E4E4E4"
-                                android:textSize="12sp"/>
+                                android:textSize="16sp"/>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -169,8 +172,9 @@
                                 app:layout_constraintStart_toEndOf="@id/callImageView"
                                 android:layout_marginStart="20dp"
                                 android:text="전화번호 입니다."
+                                android:fontFamily="@font/text_font"
                                 android:textColor="@color/white"
-                                android:textSize="13sp"/>
+                                android:textSize="17sp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -178,9 +182,10 @@
                                 app:layout_constraintTop_toBottomOf="@id/telTextView"
                                 app:layout_constraintStart_toEndOf="@id/callImageView"
                                 android:layout_marginStart="20dp"
+                                android:fontFamily="@font/text_font"
                                 android:text="탭해서 전화걸기"
                                 android:textColor="#E4E4E4"
-                                android:textSize="12sp"/>
+                                android:textSize="16sp"/>
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -213,8 +218,9 @@
                                 app:layout_constraintStart_toEndOf="@id/linkImageView"
                                 android:layout_marginStart="20dp"
                                 android:text="네이버 플레이스로 이동"
+                                android:fontFamily="@font/text_font"
                                 android:textColor="@color/white"
-                                android:textSize="13sp"/>
+                                android:textSize="17sp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -224,7 +230,8 @@
                                 android:layout_marginStart="20dp"
                                 android:text="탭해서 더 많은 정보 보러가기"
                                 android:textColor="#E4E4E4"
-                                android:textSize="12sp"/>
+                                android:textSize="16sp"
+                                android:fontFamily="@font/text_font"/>
 
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -254,18 +261,11 @@
                             android:layout_height="wrap_content"
                             android:text="* 해당 장소 정보는 네이버 플레이스에서 가져왔음을 알립니다"
                             android:textColor="@color/white"
-                            android:textSize="10sp"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/text_font"
                             android:layout_margin="20dp"/>
-
-
-
                     </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
                 </androidx.core.widget.NestedScrollView>
-
-
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </FrameLayout>

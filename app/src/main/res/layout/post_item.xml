@@ -29,7 +29,8 @@
                 android:layout_gravity="center"
                 android:text="유저이름"
                 android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textSize="20sp"
+                android:fontFamily="@font/text_font"
                 android:layout_marginStart="8dp"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -45,7 +46,8 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:text="글 제목dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            android:fontFamily="@font/text_font"
             android:padding="8dp"
             android:textColor="@color/black"/>
 
@@ -63,7 +65,8 @@
             android:maxLines="3"
             android:ellipsize="end"
             android:text="본문"
-            android:textSize="14sp"
+            android:textSize="18sp"
+            android:fontFamily="@font/text_font"
             android:padding="8dp"/>
 
         <TextView
@@ -73,7 +76,8 @@
             android:text="날짜"
             android:maxLines="1"
             android:textColor="@color/dg_gray"
-            android:textSize="12sp"
+            android:textSize="16sp"
+            android:fontFamily="@font/text_font"
             android:padding="8dp"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

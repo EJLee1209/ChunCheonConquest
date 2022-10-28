@@ -33,8 +33,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="000 님"
+                    android:fontFamily="@font/text_font"
                     android:textColor="@color/white"
-                    android:textSize="25sp"
+                    android:textSize="30sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,8 +44,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="좋은 하루 보내세요!"
+                    android:fontFamily="@font/text_font"
                     android:textColor="#F3F3F3"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="@id/nameTextView"
                     app:layout_constraintTop_toBottomOf="@id/nameTextView" />
 
@@ -61,11 +63,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="춘천 정복"
+                    android:fontFamily="@font/text_font"
                     android:gravity="center"
                     app:layout_constraintTop_toBottomOf="@id/line"
                     android:layout_marginTop="12dp"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="parent"/>
 
                 <ProgressBar
@@ -83,8 +86,9 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/progressBar"
                     android:text="총 200개 중 2개 정복 완료"
+                    android:fontFamily="@font/text_font"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     android:gravity="center"
                     android:layout_marginTop="8dp"/>
 
@@ -115,16 +119,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="이런 곳은 어때요?"
+                    android:fontFamily="@font/text_font"
                     android:textColor="@color/white"
-                    android:textSize="16sp"/>
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="에디터 추천 플레이스"
+                    android:fontFamily="@font/text_font"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:textSize="22sp"
                     android:layout_marginTop="4dp"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -146,9 +151,9 @@
                 app:layout_constraintStart_toStartOf="@id/viewPager"
                 app:layout_constraintTop_toBottomOf="@id/helloLayout"
                 android:text="분위기 좋은 카페"
+                android:fontFamily="@font/text_font"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="20sp"
                 android:layout_marginTop="12dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -169,9 +174,9 @@
                 app:layout_constraintStart_toStartOf="@id/viewPager"
                 app:layout_constraintTop_toBottomOf="@id/cafeRecyclerView"
                 android:text="춘천 가볼만한 곳"
+                android:fontFamily="@font/text_font"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="20sp"
                 android:layout_marginTop="12dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -192,9 +197,9 @@
                 app:layout_constraintStart_toStartOf="@id/viewPager"
                 app:layout_constraintTop_toBottomOf="@id/tourRecyclerView"
                 android:text="춘천 맛집"
+                android:fontFamily="@font/text_font"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="20sp"
                 android:layout_marginTop="12dp"/>
 
             <androidx.recyclerview.widget.RecyclerView

@@ -154,9 +154,9 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="회원가입"
-        android:textSize="16sp"
+        android:textSize="20sp"
+        android:fontFamily="@font/text_font"
         android:textColor="@color/white"
-        android:textStyle="bold"
         android:background="@drawable/green_button"
         android:layout_marginTop="20dp"/>
 

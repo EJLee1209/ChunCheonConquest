@@ -23,7 +23,8 @@
                 android:text="취소"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="20sp"
+                android:fontFamily="@font/text_font"
                 android:padding="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +40,8 @@
                 app:layout_constraintBottom_toBottomOf="@id/cancelButton"
                 android:text="기록하기"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="20sp"
+                android:fontFamily="@font/text_font"
                 />
 
             <TextView
@@ -49,7 +51,8 @@
                 android:text="완료"
                 android:textStyle="bold"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="20sp"
+                android:fontFamily="@font/text_font"
                 android:padding="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -85,7 +88,8 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:hint="제목"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            android:fontFamily="@font/text_font"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:padding="12dp"/>
@@ -102,7 +106,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="날짜"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            android:fontFamily="@font/text_font"
             android:textColor="@color/white"
             android:padding="12dp"/>
 
@@ -128,7 +133,8 @@
                 android:background="@null"
                 android:padding="12dp"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="20sp"
+                android:fontFamily="@font/text_font"
                 android:hint="본문 내용"
                 android:textColorHint="@color/white"
                 android:gravity="top"/>
