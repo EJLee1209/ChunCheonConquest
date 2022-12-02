@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.dldmswo1209.chuncheonconquest.FriendActivity
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentAddFriendBottomBinding
@@ -50,9 +51,11 @@ class AddFriendBottomFragment : BottomSheetDialogFragment() {
                     Log.d("testt", "find friend! : ${userData.information.name}")
                     val friendInfo = userData.information
                     viewModel.addFriend(friendInfo) // 친구 추가
-                    return@forEach
+                    return@setOnClickListener
                 }
             }
+            Toast.makeText(requireContext(), "존재하지 않는 이메일입니다.", Toast.LENGTH_SHORT).show()
+
         }
 
         binding.closeButton.setOnClickListener {
