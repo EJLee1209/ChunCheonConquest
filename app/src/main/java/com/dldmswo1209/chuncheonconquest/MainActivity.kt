@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.rank ->{
                     // 정복순위
+                    startActivity(Intent(this, RankingActivity::class.java))
                 }
                 R.id.friends ->{
                     // 친구목록

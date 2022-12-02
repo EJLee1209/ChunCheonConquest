@@ -21,9 +21,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".FriendActivity"
+            android:name=".RankingActivity"
             android:exported="false"
             android:theme="@style/Theme.ChunCheonConquest.NoActionBar_gray"/>
+        <activity
+            android:name=".FriendActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ChunCheonConquest.NoActionBar_gray" />
         <activity
             android:name=".WebViewActivity"
             android:exported="false"

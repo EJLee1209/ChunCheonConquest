@@ -11,6 +11,7 @@ import com.dldmswo1209.chuncheonconquest.fragment.AddFriendBottomFragment
 import com.dldmswo1209.chuncheonconquest.model.UserData
 import com.dldmswo1209.chuncheonconquest.model.UserInfo
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
+import kotlinx.coroutines.*
 
 class FriendActivity : AppCompatActivity() {
     private val binding by lazy{
@@ -29,9 +30,6 @@ class FriendActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        friendListAdapter = FriendListAdapter()
-        binding.recyclerView.adapter = friendListAdapter
-
         binding.addFriendButton.setOnClickListener{
             val bottomSheet = AddFriendBottomFragment()
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
@@ -42,9 +40,13 @@ class FriendActivity : AppCompatActivity() {
         }
 
         viewModel.getMyFriends().observe(this){
+            friendListAdapter = FriendListAdapter()
+            friendListAdapter.submitList(it)
+            binding.recyclerView.adapter = friendListAdapter
+
             friendList.clear()
             friendList = it
-            friendListAdapter.submitList(friendList)
+
         }
 
         binding.searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
@@ -78,4 +80,13 @@ class FriendActivity : AppCompatActivity() {
         })
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.d("testt", "onPause: ")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("testt", "onResume: ")
+    }
 }

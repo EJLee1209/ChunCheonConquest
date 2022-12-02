@@ -8,28 +8,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.R
 import com.dldmswo1209.chuncheonconquest.databinding.FriendItemBinding
-import com.dldmswo1209.chuncheonconquest.model.UserInfo
+import com.dldmswo1209.chuncheonconquest.model.UserData
 
-class FriendListAdapter: ListAdapter<UserInfo, FriendListAdapter.ViewHolder>(diffUtil) {
+class RankingAdapter: ListAdapter<UserData, RankingAdapter.ViewHolder>(diffUtil) {
+
     inner class ViewHolder(val binding: FriendItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(user: UserInfo){
-            binding.nameTextView.text = user.name
-            if(user.imageUri != null){
+        fun bind(user: UserData){
+            binding.nameTextView.text = user.information.name
+            binding.countTextView.text = "${user.conquerCount} 개 정복"
+            if(user.information.imageUri != null){
                 Glide.with(binding.root)
-                    .load(user.imageUri)
+                    .load(user.information.imageUri)
                     .circleCrop()
                     .into(binding.profileImageView)
             }else{
-                Glide.with(binding.root)
-                    .load(R.drawable.user)
-                    .circleCrop()
-                    .into(binding.profileImageView)
+                binding.profileImageView.setImageResource(R.drawable.user)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(FriendItemBinding.inflate(LayoutInflater.from(parent.context),parent, false))
+        return ViewHolder(FriendItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -37,15 +36,16 @@ class FriendListAdapter: ListAdapter<UserInfo, FriendListAdapter.ViewHolder>(dif
     }
 
     companion object{
-        private val diffUtil = object: DiffUtil.ItemCallback<UserInfo>(){
-            override fun areItemsTheSame(oldItem: UserInfo, newItem: UserInfo): Boolean {
-                return oldItem.uid == newItem.uid
+        private val diffUtil = object: DiffUtil.ItemCallback<UserData>(){
+            override fun areItemsTheSame(oldItem: UserData, newItem: UserData): Boolean {
+                return oldItem.information.uid == newItem.information.uid
             }
 
-            override fun areContentsTheSame(oldItem: UserInfo, newItem: UserInfo): Boolean {
+            override fun areContentsTheSame(oldItem: UserData, newItem: UserData): Boolean {
                 return oldItem == newItem
             }
 
         }
     }
+
 }

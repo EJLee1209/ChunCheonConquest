@@ -191,13 +191,11 @@ class Repo {
     fun getMyFriends(uid: String): LiveData<MutableList<UserInfo>>{
         val friendList = MutableLiveData<MutableList<UserInfo>>()
         db.child("Users/${uid}/friends").addValueEventListener(object: ValueEventListener{
-            val dataList = mutableListOf<UserInfo>()
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){
-                    snapshot.children.forEach {
-                        val data = it.getValue(UserInfo::class.java) as UserInfo
-                        dataList.add(data)
-                    }
+                val dataList = mutableListOf<UserInfo>()
+                snapshot.children.forEach {
+                    val data = it.getValue(UserInfo::class.java) as UserInfo
+                    dataList.add(data)
                 }
                 friendList.postValue(dataList)
             }

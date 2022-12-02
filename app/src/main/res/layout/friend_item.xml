@@ -19,6 +19,8 @@
         android:id="@+id/nameTextView"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintStart_toEndOf="@id/profileImageView"
         app:layout_constraintTop_toTopOf="@id/profileImageView"
         app:layout_constraintBottom_toBottomOf="@id/profileImageView"
@@ -26,6 +28,17 @@
         android:textSize="24sp"
         android:textColor="@color/white"
         android:fontFamily="@font/text_font"/>
+
+    <TextView
+        android:id="@+id/countTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textColor="@color/white"
+        android:fontFamily="@font/text_font"
+        android:textSize="14sp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
