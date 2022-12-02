@@ -56,6 +56,9 @@ class MainActivity : AppCompatActivity() {
 
         getDataFromIntent()
         initView()
+        mainViewModel.getUserInfo().observe(this){
+            userInfo = it
+        }
 
         binding.bottomNavigationView.selectedItemId
 
@@ -102,15 +105,19 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.home -> {
                     replaceFragment(home)
+                    binding.titleTextView.text = "춘천 정복"
                 }
                 R.id.post -> {
                     replaceFragment(post)
+                    binding.titleTextView.text = "${userInfo.name}님 의 추억"
                 }
                 R.id.map -> {
                     replaceFragment(map)
+                    binding.titleTextView.text = "지도"
                 }
                 R.id.myPage -> {
                     replaceFragment(myPage)
+                    binding.titleTextView.text = "내 프로필"
                 }
             }
             true
