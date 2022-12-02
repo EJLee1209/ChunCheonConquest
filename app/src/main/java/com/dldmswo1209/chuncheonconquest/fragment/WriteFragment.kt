@@ -5,7 +5,6 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -24,21 +23,19 @@ import com.dldmswo1209.chuncheonconquest.MainActivity
 import com.dldmswo1209.chuncheonconquest.R
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentWriteBinding
 import com.dldmswo1209.chuncheonconquest.model.Post
-import com.dldmswo1209.chuncheonconquest.model.User
+import com.dldmswo1209.chuncheonconquest.model.UserInfo
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.*
-import java.io.File
 import java.util.*
 
 class WriteFragment(val post: Post?) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentWriteBinding
     private var imageUri : Uri? = null
-    private lateinit var userInfo: User
+    private lateinit var userInfo: UserInfo
     private val viewModel : MainViewModel by activityViewModels()
     private var mode = Mode.ORIGINAL
 

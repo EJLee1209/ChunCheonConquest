@@ -1,11 +1,10 @@
 package com.dldmswo1209.chuncheonconquest
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.dldmswo1209.chuncheonconquest.databinding.ActivityRegisterBinding
-import com.dldmswo1209.chuncheonconquest.model.User
+import com.dldmswo1209.chuncheonconquest.model.UserInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -44,9 +43,9 @@ class RegisterActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     toastMsg("회원가입에 성공했습니다")
                     val uid = it.user?.uid.toString()
-                    val newUser = User(uid, email, pw, name)
+                    val newUserInfo = UserInfo(uid, email, pw, name)
 
-                    db.child(uid).child("information").setValue(newUser)
+                    db.child(uid).child("information").setValue(newUserInfo)
 
                     finish()
                 }

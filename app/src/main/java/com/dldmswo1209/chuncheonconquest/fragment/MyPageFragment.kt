@@ -18,18 +18,15 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.MainActivity
-import com.dldmswo1209.chuncheonconquest.R
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentMyPageBinding
-import com.dldmswo1209.chuncheonconquest.model.User
+import com.dldmswo1209.chuncheonconquest.model.UserInfo
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
-import kotlinx.coroutines.selects.select
 
 class MyPageFragment : Fragment() {
     private lateinit var binding: FragmentMyPageBinding
-    private lateinit var userInfo: User
+    private lateinit var userInfo: UserInfo
     private val viewModel: MainViewModel by activityViewModels()
     private var imageUri : Uri? = null
     private var isEditMode = false
@@ -87,12 +84,12 @@ class MyPageFragment : Fragment() {
             imageUri = imageUri ?: userInfo.imageUri?.toUri()
             // 원래 프사가 없는데 이름만 변경하는 경우
             if(imageUri == null){
-                val user = User(userInfo.uid, userInfo.email, userInfo.pw, name, null, null)
-                viewModel.updateUserInfo(user, null)
+                val userInfo = UserInfo(userInfo.uid, userInfo.email, userInfo.pw, name, null, null)
+                viewModel.updateUserInfo(userInfo, null)
             }else{
                 val imageUrl = "profile_images/${userInfo.uid}/${userInfo.uid}_${imageUri?.lastPathSegment.toString()}.png"
-                val user = User(userInfo.uid, userInfo.email, userInfo.pw, name, imageUrl, null)
-                viewModel.updateUserInfo(user, imageUri)
+                val userInfo = UserInfo(userInfo.uid, userInfo.email, userInfo.pw, name, imageUrl, null)
+                viewModel.updateUserInfo(userInfo, imageUri)
             }
             isEditMode =false
             hideUI()

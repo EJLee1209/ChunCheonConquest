@@ -1,6 +1,5 @@
 package com.dldmswo1209.chuncheonconquest.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.R
 import com.dldmswo1209.chuncheonconquest.databinding.PostItemBinding
 import com.dldmswo1209.chuncheonconquest.model.Post
-import com.google.firebase.storage.FirebaseStorage
 
 class PostListAdapter(val onClick: (Post) -> (Unit)): ListAdapter<Post, PostListAdapter.ViewHolder>(diffUtil) {
 
@@ -20,7 +18,7 @@ class PostListAdapter(val onClick: (Post) -> (Unit)): ListAdapter<Post, PostList
             binding.titleTextView.text = post.title
             binding.dateTextView.text = post.date
             binding.contentTextView.text = post.content
-            binding.nameTextView.text = post.user.name
+            binding.nameTextView.text = post.userInfo.name
 
             if(post.imageUri != ""){
                 binding.imageView.visibility = View.VISIBLE
@@ -32,11 +30,11 @@ class PostListAdapter(val onClick: (Post) -> (Unit)): ListAdapter<Post, PostList
                 binding.imageView.visibility = View.GONE
             }
 
-            if(post.user.imageUri == null){
+            if(post.userInfo.imageUri == null){
                 binding.profileImageView.setImageResource(R.drawable.user)
             }else {
                 Glide.with(binding.root)
-                    .load(post.user.imageUri)
+                    .load(post.userInfo.imageUri)
                     .circleCrop()
                     .into(binding.profileImageView)
             }

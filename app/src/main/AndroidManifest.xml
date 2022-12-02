@@ -4,9 +4,9 @@
     package="com.dldmswo1209.chuncheonconquest">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
@@ -17,13 +17,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ChunCheonConquest"
-        tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        android:theme="@style/Theme.ChunCheonConquest.NoActionBar"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".FriendActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ChunCheonConquest.NoActionBar_gray"/>
         <activity
             android:name=".WebViewActivity"
             android:exported="false"
-            android:theme="@style/Theme.ChunCheonConquest.NoActionBar"/>
+            android:theme="@style/Theme.ChunCheonConquest.NoActionBar" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -36,7 +40,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.ChunCheonConquest.NoActionBar" />
+            android:theme="@style/Theme.ChunCheonConquest.NoActionBar_gray" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"
@@ -44,6 +48,7 @@
             android:theme="@style/Theme.ChunCheonConquest.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

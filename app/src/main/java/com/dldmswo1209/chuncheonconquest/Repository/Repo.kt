@@ -3,34 +3,53 @@ package com.dldmswo1209.chuncheonconquest.Repository
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
-import com.dldmswo1209.chuncheonconquest.model.User
+import com.dldmswo1209.chuncheonconquest.model.UserData
+import com.dldmswo1209.chuncheonconquest.model.UserInfo
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.launch
 
 class Repo {
     val db = Firebase.database.reference
     var storageRef = FirebaseStorage.getInstance().reference
 
-    fun getUserInfo(uid: String): LiveData<User> {
-        val user = MutableLiveData<User>()
+    fun getAllUser(): LiveData<MutableList<UserData>> {
+        val userInfoList = MutableLiveData<MutableList<UserData>>()
+
+        db.child("Users").addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val dataList = mutableListOf<UserData>()
+                snapshot.children.forEach {
+                    val data = it.getValue(UserData::class.java) ?: return@forEach
+                    dataList.add(data)
+                }
+                userInfoList.postValue(dataList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+        return userInfoList
+    }
+
+    // 유저 정보 가져오기
+    fun getUserInfo(uid: String): LiveData<UserInfo> {
+        val userInfo = MutableLiveData<UserInfo>()
 
         db.child("Users/${uid}/information").addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                user.postValue(snapshot.getValue(User::class.java))
+                userInfo.postValue(snapshot.getValue(UserInfo::class.java))
             }
             override fun onCancelled(error: DatabaseError) {}
         })
-        return user
+        return userInfo
     }
 
+    // 모든 카페 목록
     fun getCafeList() : LiveData<MutableList<TourSpot>> {
         val cafeList = MutableLiveData<MutableList<TourSpot>>()
 
@@ -50,6 +69,7 @@ class Repo {
         return cafeList
     }
 
+    // 모든 식당 목록
     fun getRestaurantList(): LiveData<MutableList<TourSpot>> {
         val restaurantList = MutableLiveData<MutableList<TourSpot>>()
 
@@ -69,6 +89,7 @@ class Repo {
         return restaurantList
     }
 
+    // 모든 관광지 목록
     fun getTourList(): LiveData<MutableList<TourSpot>>{
         val tourList = MutableLiveData<MutableList<TourSpot>>()
 
@@ -89,18 +110,18 @@ class Repo {
     }
 
     // 프로필 변경
-    fun updateUserInfo(user: User, imageUri: Uri?) {
+    fun updateUserInfo(userInfo: UserInfo, imageUri: Uri?) {
         if(imageUri == null){
-            db.child("Users").child(user.uid).child("information").setValue(user) // 데이터 갱신
+            db.child("Users").child(userInfo.uid).child("information").setValue(userInfo) // 데이터 갱신
         }
         else {
-            val update = user
-            val imgFileName = "${user.uid}_${imageUri.lastPathSegment.toString()}.png"
-            storageRef.child("profile_images").child(user.uid).child(imgFileName).putFile(imageUri)
+            val update = userInfo
+            val imgFileName = "${userInfo.uid}_${imageUri.lastPathSegment.toString()}.png"
+            storageRef.child("profile_images").child(userInfo.uid).child(imgFileName).putFile(imageUri)
                 .addOnSuccessListener { // 이미지 업로드
-                    storageRef.child(user.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 다운로드
+                    storageRef.child(userInfo.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 다운로드
                         update.imageUri = it.toString() // 다운로드 받은 이미지 uri 를 업데이트할 객체에 넣어줌
-                        db.child("Users").child(user.uid).child("information").setValue(update) // 데이터 갱신
+                        db.child("Users").child(userInfo.uid).child("information").setValue(update) // 데이터 갱신
                     }
                 }
         }
@@ -108,7 +129,7 @@ class Repo {
 
     // 게시물 업로드
     fun uploadPost(post: Post, imageUri: Uri?) {
-        val dbRef = db.child("Post/${post.user.uid}").push()
+        val dbRef = db.child("Post/${post.userInfo.uid}").push()
         val post_key = dbRef.key
         val newPost = post
         newPost.key = post_key.toString()
@@ -116,7 +137,7 @@ class Repo {
         if(imageUri == null){ // 이미지가 없는 경우
             dbRef.setValue(newPost) // 그냥 업로드
         }else{ // 이미지가 있는 경우
-            val imgFileName = "${post.user.uid}_${imageUri.lastPathSegment.toString()}.png"
+            val imgFileName = "${post.userInfo.uid}_${imageUri.lastPathSegment.toString()}.png"
             storageRef.child("images").child(imgFileName).putFile(imageUri) // 이미지 업로드
                 .addOnSuccessListener {
                     storageRef.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 다운로드
@@ -129,12 +150,12 @@ class Repo {
 
     // 게시물 수정
     fun updatePost(post: Post, imageUri: Uri? = null) {
-        val dbRef = db.child("Post/${post.user.uid}/${post.key}")
+        val dbRef = db.child("Post/${post.userInfo.uid}/${post.key}")
         if(imageUri == null)
             dbRef.setValue(post)
         else{
             val newPost = post
-            val imgFileName = "${post.user.uid}_${imageUri.lastPathSegment.toString()}.png"
+            val imgFileName = "${post.userInfo.uid}_${imageUri.lastPathSegment.toString()}.png"
             storageRef.child("images").child(imgFileName).putFile(imageUri) // 이미지 업로드
                 .addOnSuccessListener {
                     storageRef.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 다운로드
@@ -146,17 +167,42 @@ class Repo {
         }
     }
 
+    // 게시물 삭제
     fun deletePost(post: Post) {
-        db.child("Post/${post.user.uid}/${post.key}").removeValue()
+        db.child("Post/${post.userInfo.uid}/${post.key}").removeValue()
     }
 
-    fun conquerCountUp(user: User, tourSpot: TourSpot) {
-        db.child("Users/${user.uid}/conquerSpot/${tourSpot.title}").setValue(tourSpot)
+    // 정복 카운트 증가 시키기
+    fun conquerCountUp(userInfo: UserInfo, tourSpot: TourSpot) {
+        db.child("Users/${userInfo.uid}/conquerSpot/${tourSpot.title}").setValue(tourSpot)
             .addOnSuccessListener {
-                db.child("Users/${user.uid}/conquerSpot").get().addOnSuccessListener {
+                db.child("Users/${userInfo.uid}/conquerSpot").get().addOnSuccessListener {
                     val count = it.childrenCount
-                    db.child("Users/${user.uid}/conquerCount").setValue(count)
+                    db.child("Users/${userInfo.uid}/conquerCount").setValue(count)
                 }
             }
+    }
+
+    fun addFriend(uid: String, friend: UserInfo){
+        db.child("Users/${uid}/friends/${friend.uid}").setValue(friend)
+    }
+
+    fun getMyFriends(uid: String): LiveData<MutableList<UserInfo>>{
+        val friendList = MutableLiveData<MutableList<UserInfo>>()
+        db.child("Users/${uid}/friends").addValueEventListener(object: ValueEventListener{
+            val dataList = mutableListOf<UserInfo>()
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    snapshot.children.forEach {
+                        val data = it.getValue(UserInfo::class.java) as UserInfo
+                        dataList.add(data)
+                    }
+                }
+                friendList.postValue(dataList)
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
+        return friendList
     }
 }

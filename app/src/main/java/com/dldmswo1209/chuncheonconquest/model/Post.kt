@@ -9,7 +9,7 @@ data class Post(
     var imageUri: String? = null, // 스토리지에서 가져올 이미지 uri
     var content: String,
     var date: String,
-    var user: User,
+    var userInfo: UserInfo,
 ): Serializable{
-    constructor(): this("","","","","","",User())
+    constructor(): this("","","","","","",UserInfo())
 }

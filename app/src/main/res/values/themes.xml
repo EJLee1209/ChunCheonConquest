@@ -24,4 +24,12 @@
     <style name="Theme.ChunCheonConquest.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ChunCheonConquest.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.ChunCheonConquest.NoActionBar_gray">
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/background_gray</item>
+    </style>
+
+
 </resources>

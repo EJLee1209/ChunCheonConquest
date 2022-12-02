@@ -1,17 +1,14 @@
 package com.dldmswo1209.chuncheonconquest.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.MainActivity
@@ -19,7 +16,7 @@ import com.dldmswo1209.chuncheonconquest.adapter.HomeBannerAdapter
 import com.dldmswo1209.chuncheonconquest.adapter.TourListAdapter
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentHomeBinding
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
-import com.dldmswo1209.chuncheonconquest.model.User
+import com.dldmswo1209.chuncheonconquest.model.UserInfo
 import com.dldmswo1209.chuncheonconquest.viewModel.MainViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -27,8 +24,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.*
 
 
 class HomeFragment : Fragment() {
@@ -55,18 +50,23 @@ class HomeFragment : Fragment() {
     }
     private val listener = object: ValueEventListener{
         override fun onDataChange(snapshot: DataSnapshot) {
-            val count = snapshot.value as Long
-            val conquerPercentage : Double = (count.toDouble() / totalCount.toDouble()) * 100
+            if(snapshot.exists()){
+                var count = snapshot.value as Long
+                val conquerPercentage : Double = (count.toDouble() / totalCount.toDouble()) * 100
 
-            binding.countTextView.text = "${totalCount}개 중 ${count}개 정복 완료!"
-            binding.progressBar.progress = conquerPercentage.toInt()
+                binding.countTextView.text = "${totalCount}개 중 ${count}개 정복 완료!"
+                binding.progressBar.progress = conquerPercentage.toInt()
+            }else{
+                binding.countTextView.text = "${totalCount}개 중 0개 정복 완료!"
+            }
+
         }
 
         override fun onCancelled(error: DatabaseError) {}
 
     }
 
-    private lateinit var userInfo : User
+    private lateinit var userInfo : UserInfo
     private lateinit var cafeList: ArrayList<TourSpot>
     private lateinit var restaurantList : ArrayList<TourSpot>
     private lateinit var tourList : ArrayList<TourSpot>
@@ -84,11 +84,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        totalCount = (activity as MainActivity).getTotalCount()
         getDataFromMainActivity()
         initView()
 
-        totalCount = (activity as MainActivity).getTotalCount()
+
 
         db = Firebase.database.reference
         db.child("Users/${userInfo.uid}/conquerCount").addValueEventListener(listener)
@@ -98,11 +98,11 @@ class HomeFragment : Fragment() {
         }
 
     }
-    private fun setUserNameImage(user: User){
-        binding.nameTextView.text = "${user.name}님"
-        if(userInfo.imageUri != null){
+    private fun setUserNameImage(userInfo: UserInfo){
+        binding.nameTextView.text = "${userInfo.name}님"
+        if(this.userInfo.imageUri != null){
             Glide.with(binding.root)
-                .load(user.imageUri)
+                .load(userInfo.imageUri)
                 .circleCrop()
                 .into(binding.profileImageView)
         }

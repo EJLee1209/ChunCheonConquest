@@ -3,26 +3,14 @@ package com.dldmswo1209.chuncheonconquest.viewModel
 import android.app.Application
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.Repository.Repo
 import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
-import com.dldmswo1209.chuncheonconquest.model.User
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.dldmswo1209.chuncheonconquest.model.UserData
+import com.dldmswo1209.chuncheonconquest.model.UserInfo
 
 
 class MainViewModel(application: Application): AndroidViewModel(application) {
@@ -31,13 +19,21 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     val uid = sharedPreferences.getString("uid", "").toString()
     val repo = Repo()
 
-    // 유저 정보 가져오기
-    fun getUserInfo() : LiveData<User>{
-        val user = MutableLiveData<User>()
-        repo.getUserInfo(uid).observeForever {
-            user.postValue(it)
+    fun getAllUser(): LiveData<MutableList<UserData>>{
+        val userList = MutableLiveData<MutableList<UserData>>()
+        repo.getAllUser().observeForever {
+            userList.postValue(it)
         }
-        return user
+        return userList
+    }
+
+    // 유저 정보 가져오기
+    fun getUserInfo() : LiveData<UserInfo>{
+        val userInfo = MutableLiveData<UserInfo>()
+        repo.getUserInfo(uid).observeForever {
+            userInfo.postValue(it)
+        }
+        return userInfo
     }
 
     // 카페 정보 가져오기
@@ -68,8 +64,8 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     }
 
     // 프로필 변경
-    fun updateUserInfo(user: User, imageUri: Uri?) {
-        repo.updateUserInfo(user, imageUri)
+    fun updateUserInfo(userInfo: UserInfo, imageUri: Uri?) {
+        repo.updateUserInfo(userInfo, imageUri)
     }
 
     // 게시물 업로드
@@ -86,8 +82,21 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         repo.deletePost(post)
     }
 
-    fun conquerCountUp(user: User, tourSpot: TourSpot){
-        repo.conquerCountUp(user, tourSpot)
+    fun conquerCountUp(userInfo: UserInfo, tourSpot: TourSpot){
+        repo.conquerCountUp(userInfo, tourSpot)
+    }
+
+    fun addFriend(friend: UserInfo){
+        repo.addFriend(uid, friend)
+    }
+
+    fun getMyFriends(): LiveData<MutableList<UserInfo>>{
+        val friendList = MutableLiveData<MutableList<UserInfo>>()
+        repo.getMyFriends(uid).observeForever {
+            friendList.postValue(it)
+        }
+
+        return friendList
     }
 
 
