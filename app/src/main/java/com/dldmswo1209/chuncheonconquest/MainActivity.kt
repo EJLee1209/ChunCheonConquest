@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity() {
 
         getDataFromIntent()
         initView()
+
+        binding.bottomNavigationView.selectedItemId
     }
     private fun getDataFromIntent(){
         userInfo = intent.getSerializableExtra("user") as User

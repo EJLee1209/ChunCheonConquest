@@ -170,7 +170,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
     private fun iAmThere(tour: TourSpot){
         val distance = calDist(currentLocation!!.latitude,currentLocation!!.longitude, tour.latitude, tour.longitude)
-        if(distance <= 10) { // 관광지와 현재 위치의 거리가 10미터 이내인 경우
+        if(distance <= 50) { // 관광지와 현재 위치의 거리가 10미터 이내인 경우
             Log.d("test", "현재 위치와 ${tour.title}의 거리 : ${distance}m")
             (activity as MainActivity).sendNotification(tour) // 알림을 보냄
         }
@@ -240,8 +240,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
     }
     fun getMarker(){
-        viewModel.getCafeList()
-        viewModel.cafeList.observe(viewLifecycleOwner, Observer {
+        viewModel.getCafeList().observe(this){
             cafeList.clear()
             it.forEach { tour ->
                 val marker = Marker()
@@ -257,10 +256,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
                 cafeMakerList.add(marker)
                 cafeList.add(tour)
             }
-        })
+        }
 
-        viewModel.getRestaurantList()
-        viewModel.restaurantList.observe(viewLifecycleOwner, Observer {
+        viewModel.getRestaurantList().observe(this){
             restaurantList.clear()
             it.forEach { tour ->
                 val marker = Marker()
@@ -276,10 +274,9 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
                 restaurantMarkerList.add(marker)
                 restaurantList.add(tour)
             }
-        })
+        }
 
-        viewModel.getTourList()
-        viewModel.tourList.observe(viewLifecycleOwner, Observer {
+        viewModel.getTourList().observe(this){
             tourList.clear()
             it.forEach { tour ->
                 val marker = Marker()
@@ -296,7 +293,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
                 tourList.add(tour)
             }
             binding.tourFloatingButton.performClick()
-        })
+        }
     }
 
     fun isPermitted(): Boolean {

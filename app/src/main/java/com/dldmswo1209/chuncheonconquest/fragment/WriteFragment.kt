@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.MainActivity
+import com.dldmswo1209.chuncheonconquest.R
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentWriteBinding
 import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.User

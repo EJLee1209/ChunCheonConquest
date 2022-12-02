@@ -23,9 +23,9 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private lateinit var user: User
-    private val tourList = arrayListOf<TourSpot>()
-    private val cafeList = arrayListOf<TourSpot>()
-    private val restaurantList = arrayListOf<TourSpot>()
+    private var tourList = arrayListOf<TourSpot>()
+    private var cafeList = arrayListOf<TourSpot>()
+    private var restaurantList = arrayListOf<TourSpot>()
     private var loadCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,36 +38,27 @@ class SplashActivity : AppCompatActivity() {
             // 로그인 한적이 있다면
             // 데이터를 가져옴
             // 데이터 로딩을 스플래시 화면에서 함으로써 데이터 로드 지연시간을 없앤다.
-            viewModel.getTourList()
-            viewModel.getCafeList()
-            viewModel.getRestaurantList()
-            viewModel.getUserInfo()
+            viewModel.getUserInfo().observe(this){
+                user = it
+                loadCount++
+            }
+
+            viewModel.getCafeList().observe(this){
+                cafeList = it as ArrayList<TourSpot>
+                loadCount++
+            }
+
+            viewModel.getTourList().observe(this){
+                tourList = it as ArrayList<TourSpot>
+                loadCount++
+            }
+
+
+            viewModel.getRestaurantList().observe(this){
+                restaurantList = it as ArrayList<TourSpot>
+                loadCount++
+            }
         }
-        viewModel.user.observe(this, Observer {
-            user = it
-            loadCount++
-        })
-
-        viewModel.cafeList.observe(this, Observer {
-             it.forEach { spot ->
-                 cafeList.add(spot)
-             }
-            loadCount++
-        })
-
-        viewModel.tourList.observe(this, Observer {
-            it.forEach { spot ->
-                tourList.add(spot)
-            }
-            loadCount++
-        })
-
-        viewModel.restaurantList.observe(this, Observer {
-            it.forEach { spot ->
-                restaurantList.add(spot)
-            }
-            loadCount++
-        })
 
         CoroutineScope(Dispatchers.Default).launch {
             if(uid == ""){

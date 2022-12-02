@@ -74,16 +74,14 @@ class PostFragment : Fragment() {
             showBottomDialog(null)
         }
 
-        viewModel.user.observe(viewLifecycleOwner, Observer { user->
+        viewModel.getUserInfo().observe(viewLifecycleOwner){ user->
             postList.forEach { post->
                 post.user.name = user.name
                 post.user.imageUri = user.imageUri
                 post.user.imageUrl = user.imageUrl
                 viewModel.updatePost(post)
             }
-
-        })
-
+        }
     }
 
     private fun showBottomDialog(post: Post?){

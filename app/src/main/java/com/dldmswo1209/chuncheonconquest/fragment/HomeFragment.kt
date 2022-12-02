@@ -62,9 +62,7 @@ class HomeFragment : Fragment() {
             binding.progressBar.progress = conquerPercentage.toInt()
         }
 
-        override fun onCancelled(error: DatabaseError) {
-
-        }
+        override fun onCancelled(error: DatabaseError) {}
 
     }
 
@@ -95,12 +93,9 @@ class HomeFragment : Fragment() {
         db = Firebase.database.reference
         db.child("Users/${userInfo.uid}/conquerCount").addValueEventListener(listener)
 
-
-        viewModel.user.observe(viewLifecycleOwner, Observer {
+        viewModel.getUserInfo().observe(viewLifecycleOwner){
             setUserNameImage(it)
-            Log.d("testt", it.conquerCount.toString())
-        })
-
+        }
 
     }
     private fun setUserNameImage(user: User){

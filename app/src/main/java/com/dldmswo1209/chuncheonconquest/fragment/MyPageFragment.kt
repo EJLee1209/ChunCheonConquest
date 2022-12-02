@@ -73,14 +73,13 @@ class MyPageFragment : Fragment() {
             selectGallery()
         }
 
-        viewModel.user.observe(viewLifecycleOwner, Observer {
-            Log.d("testt", "updated!!")
+        viewModel.getUserInfo().observe(viewLifecycleOwner){
             binding.nameEditText.setText(it.name)
             Glide.with(binding.root)
                 .load(it.imageUri)
                 .circleCrop()
                 .into(binding.profileImageView)
-        })
+        }
 
         binding.ok.setOnClickListener {
             val name = binding.nameEditText.text.toString()
