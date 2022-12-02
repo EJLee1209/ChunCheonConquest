@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.dldmswo1209.chuncheonconquest.R
 import com.dldmswo1209.chuncheonconquest.databinding.PostItemBinding
 import com.dldmswo1209.chuncheonconquest.model.Post
+import com.dldmswo1209.chuncheonconquest.model.UserInfo
 
 class PostListAdapter(val onClick: (Post) -> (Unit)): ListAdapter<Post, PostListAdapter.ViewHolder>(diffUtil) {
 
@@ -18,7 +19,7 @@ class PostListAdapter(val onClick: (Post) -> (Unit)): ListAdapter<Post, PostList
             binding.titleTextView.text = post.title
             binding.dateTextView.text = post.date
             binding.contentTextView.text = post.content
-            binding.nameTextView.text = post.userInfo.name
+            binding.nameTextView.text = post.user.name
 
             if(post.imageUri != ""){
                 binding.imageView.visibility = View.VISIBLE
@@ -30,11 +31,11 @@ class PostListAdapter(val onClick: (Post) -> (Unit)): ListAdapter<Post, PostList
                 binding.imageView.visibility = View.GONE
             }
 
-            if(post.userInfo.imageUri == null){
+            if(post.user.imageUri == null){
                 binding.profileImageView.setImageResource(R.drawable.user)
             }else {
                 Glide.with(binding.root)
-                    .load(post.userInfo.imageUri)
+                    .load(post.user.imageUri)
                     .circleCrop()
                     .into(binding.profileImageView)
             }

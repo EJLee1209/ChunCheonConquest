@@ -1,6 +1,7 @@
 package com.dldmswo1209.chuncheonconquest.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,30 +23,9 @@ class PostFragment : Fragment() {
 
     private lateinit var binding : FragmentPostBinding
     private val viewModel: MainViewModel by activityViewModels()
-    private val postListAdapter = PostListAdapter{ post ->
-        showBottomDialog(post)
-    }
-    private val postList = mutableListOf<Post>()
-    private val eventListener = object: ValueEventListener{
-        override fun onDataChange(snapshot: DataSnapshot) {
-            binding.lottieAnimationView.visibility = View.VISIBLE // 데이터를 가져오는 동안 로딩 애니메이션을 보여줌
-            postList.clear()
-            snapshot.children.forEach {
-                val post = it.getValue(Post::class.java) as Post
-                postList.add(0,post)
-            }
-            postListAdapter.submitList(postList)
-            postListAdapter.notifyDataSetChanged()
+    private lateinit var postListAdapter : PostListAdapter
 
-            binding.lottieAnimationView.visibility = View.GONE
-        }
-
-        override fun onCancelled(error: DatabaseError) {
-
-        }
-
-    }
-    private lateinit var db : DatabaseReference
+    private var postList = mutableListOf<Post>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,21 +38,26 @@ class PostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val userInfo = (activity as MainActivity).getUserInfo()
-        db = Firebase.database.reference.child("Post/${userInfo.uid}")
-        db.addValueEventListener(eventListener)
-
-        binding.postRecyclerView.adapter = postListAdapter
-
         binding.writeButton.setOnClickListener{
             showBottomDialog(null)
         }
 
+        viewModel.getPost().observe(viewLifecycleOwner){
+            postList = it
+            postListAdapter = PostListAdapter{ post ->
+                showBottomDialog(post)
+            }
+            postListAdapter.submitList(it)
+            binding.postRecyclerView.adapter = postListAdapter
+
+            binding.lottieAnimationView.visibility = View.GONE
+        }
+
         viewModel.getUserInfo().observe(viewLifecycleOwner){ user->
             postList.forEach { post->
-                post.userInfo.name = user.name
-                post.userInfo.imageUri = user.imageUri
-                post.userInfo.imageUrl = user.imageUrl
+                post.user.name = user.name
+                post.user.imageUri = user.imageUri
+                post.user.imageUrl = user.imageUrl
                 viewModel.updatePost(post)
             }
         }
@@ -84,11 +69,6 @@ class PostFragment : Fragment() {
     }
     fun showLottie(){
         binding.lottieAnimationView.visibility = View.VISIBLE
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        db.removeEventListener(eventListener)
     }
 
 }

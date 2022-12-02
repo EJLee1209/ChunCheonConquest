@@ -128,9 +128,29 @@ class Repo {
         }
     }
 
+    fun getPost(uid: String) : LiveData<MutableList<Post>>{
+        val postList = MutableLiveData<MutableList<Post>>()
+
+        db.child("Post/${uid}").addValueEventListener(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val dataList = mutableListOf<Post>()
+                if(snapshot.exists()){
+                    snapshot.children.forEach {
+                        val data = it.getValue(Post::class.java) as Post
+                        dataList.add(data)
+                    }
+                }
+                postList.postValue(dataList)
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
+        return postList
+    }
+
     // 게시물 업로드
     fun uploadPost(post: Post, imageUri: Uri?) {
-        val dbRef = db.child("Post/${post.userInfo.uid}").push()
+        val dbRef = db.child("Post/${post.user.uid}").push()
         val post_key = dbRef.key
         val newPost = post
         newPost.key = post_key.toString()
@@ -138,7 +158,7 @@ class Repo {
         if(imageUri == null){ // 이미지가 없는 경우
             dbRef.setValue(newPost) // 그냥 업로드
         }else{ // 이미지가 있는 경우
-            val imgFileName = "${post.userInfo.uid}_${imageUri.lastPathSegment.toString()}.png"
+            val imgFileName = "${post.user.uid}_${imageUri.lastPathSegment.toString()}.png"
             storageRef.child("images").child(imgFileName).putFile(imageUri) // 이미지 업로드
                 .addOnSuccessListener {
                     storageRef.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 다운로드
@@ -151,12 +171,13 @@ class Repo {
 
     // 게시물 수정
     fun updatePost(post: Post, imageUri: Uri? = null) {
-        val dbRef = db.child("Post/${post.userInfo.uid}/${post.key}")
+        val dbRef = db.child("Post/${post.user.uid}/${post.key}")
+
         if(imageUri == null)
             dbRef.setValue(post)
         else{
             val newPost = post
-            val imgFileName = "${post.userInfo.uid}_${imageUri.lastPathSegment.toString()}.png"
+            val imgFileName = "${post.user.uid}_${imageUri.lastPathSegment.toString()}.png"
             storageRef.child("images").child(imgFileName).putFile(imageUri) // 이미지 업로드
                 .addOnSuccessListener {
                     storageRef.child(post.imageUrl.toString()).downloadUrl.addOnSuccessListener { // 이미지 다운로드
@@ -170,7 +191,7 @@ class Repo {
 
     // 게시물 삭제
     fun deletePost(post: Post) {
-        db.child("Post/${post.userInfo.uid}/${post.key}").removeValue()
+        db.child("Post/${post.user.uid}/${post.key}").removeValue()
     }
 
     // 정복 카운트 증가 시키기

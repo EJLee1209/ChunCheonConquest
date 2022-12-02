@@ -48,8 +48,6 @@ class MainActivity : AppCompatActivity() {
         const val CHANNEL_ID = "channel_id"
         const val CHANNEL_NAME = "channel_name"
     }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -58,11 +56,6 @@ class MainActivity : AppCompatActivity() {
 
         getDataFromIntent()
         initView()
-
-        mainViewModel.getAllUser().observe(this){
-            Log.d("testt", "all user : ${it}")
-
-        }
 
         binding.bottomNavigationView.selectedItemId
 

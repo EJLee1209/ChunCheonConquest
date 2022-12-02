@@ -71,6 +71,7 @@ class MyPageFragment : Fragment() {
         }
 
         viewModel.getUserInfo().observe(viewLifecycleOwner){
+            userInfo = it
             binding.nameEditText.setText(it.name)
             Glide.with(binding.root)
                 .load(it.imageUri)

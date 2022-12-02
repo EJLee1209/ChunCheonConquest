@@ -6,7 +6,9 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.dldmswo1209.chuncheonconquest.MainActivity
 import com.dldmswo1209.chuncheonconquest.Repository.Repo
+import com.dldmswo1209.chuncheonconquest.fragment.PostFragment
 import com.dldmswo1209.chuncheonconquest.model.Post
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
 import com.dldmswo1209.chuncheonconquest.model.UserData
@@ -68,9 +70,18 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
         repo.updateUserInfo(userInfo, imageUri)
     }
 
+    fun getPost() : LiveData<MutableList<Post>> {
+        val postList = MutableLiveData<MutableList<Post>>()
+        repo.getPost(uid).observeForever {
+            postList.postValue(it)
+        }
+        return postList
+    }
+
     // 게시물 업로드
     fun uploadPost(post: Post, imageUri: Uri?)  {
         repo.uploadPost(post, imageUri)
+
     }
 
     // 게시물 수정
