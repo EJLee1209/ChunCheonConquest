@@ -14,28 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:title="춘천 정복자"
         app:titleTextColor="@color/white"
-        android:background="@color/background_gray">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:searchIcon="@drawable/search"
-                app:queryHint="이름"
-                app:queryBackground="@drawable/input_rect_gray"
-                android:padding="8dp"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.appcompat.widget.Toolbar>
+        android:background="@color/background_gray"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/firstLayout"

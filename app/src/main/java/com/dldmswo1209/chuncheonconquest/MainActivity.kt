@@ -1,5 +1,6 @@
 package com.dldmswo1209.chuncheonconquest
 
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.NotificationManager.IMPORTANCE_HIGH
@@ -11,9 +12,15 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -87,6 +94,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
     }
     private fun getDataFromIntent(){
         userInfo = intent.getSerializableExtra("user") as UserInfo
@@ -106,18 +114,22 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> {
                     replaceFragment(home)
                     binding.titleTextView.text = "춘천 정복"
+                    binding.toolbar.visibility = View.VISIBLE
                 }
                 R.id.post -> {
                     replaceFragment(post)
                     binding.titleTextView.text = "${userInfo.name}님 의 추억"
+                    binding.toolbar.visibility = View.VISIBLE
                 }
                 R.id.map -> {
                     replaceFragment(map)
+                    binding.toolbar.visibility = View.GONE
                     binding.titleTextView.text = "지도"
                 }
                 R.id.myPage -> {
                     replaceFragment(myPage)
                     binding.titleTextView.text = "내 프로필"
+                    binding.toolbar.visibility = View.VISIBLE
                 }
             }
             true
@@ -192,5 +204,7 @@ class MainActivity : AppCompatActivity() {
 
         notificationManager.notify(notificationID, notification)
     }
+
+
 
 }

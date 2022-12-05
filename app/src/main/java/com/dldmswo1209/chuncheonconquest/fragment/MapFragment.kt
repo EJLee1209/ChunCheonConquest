@@ -1,17 +1,20 @@
 package com.dldmswo1209.chuncheonconquest.fragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -23,6 +26,7 @@ import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.dldmswo1209.chuncheonconquest.MainActivity
 import com.dldmswo1209.chuncheonconquest.R
+import com.dldmswo1209.chuncheonconquest.adapter.FindListAdapter
 import com.dldmswo1209.chuncheonconquest.adapter.TourViewPager
 import com.dldmswo1209.chuncheonconquest.databinding.FragmentMapBinding
 import com.dldmswo1209.chuncheonconquest.model.TourSpot
@@ -54,8 +58,22 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
     private val cafeList = mutableListOf<TourSpot>()
     private val restaurantList = mutableListOf<TourSpot>()
     private val tourList = mutableListOf<TourSpot>()
+    private var placeList = mutableListOf<TourSpot>()
+    private var findPlaceList = mutableListOf<TourSpot>()
     private val viewModel : MainViewModel by activityViewModels()
     private val viewPagerAdapter = TourViewPager()
+    private var isSearchMode = false
+    private var mapFragment: MapFragment? = null
+    private lateinit var imm: InputMethodManager
+    private var previousMarker: Marker? = null
+
+    private var findAdapter = FindListAdapter{ tour->
+        isSearchMode = false
+        showOrHideUI()
+        allMarkerDelete()
+        if(previousMarker != null) deleteMark(previousMarker!!)
+        markup(tour)
+    }
 
     private var currentLocation: Location? = null
     //권한 가져오기
@@ -68,8 +86,12 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-
         binding = FragmentMapBinding.inflate(inflater, container, false)
+        binding.searchEditText.requestFocus()
+        imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        clickEvent()
+
         return binding.root
     }
 
@@ -82,7 +104,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
         }//권한 확인
 
         val fm = childFragmentManager
-        val mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
+        mapFragment = fm.findFragmentById(R.id.map) as MapFragment?
         mapFragment?.getMapAsync(this)
 
         binding.tourViewPager.adapter = viewPagerAdapter
@@ -94,25 +116,16 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
                 val cameraUpdate = CameraUpdate.scrollTo(LatLng(selected.latitude, selected.longitude))
                     .animate(CameraAnimation.Easing) // 애니메이션 추가
                 naverMap.moveCamera(cameraUpdate)
-
             }
         })
-
-        clickEvent()
-
     }
 
     private fun clickEvent(){
         binding.cafeFloatingButton.setOnClickListener{
             // 카페 플로팅 버튼 클릭시 카페에 해당하는 위치에만 마커를 찍음
+            allMarkerDelete()
             cafeMakerList.forEach {
                 it.map = naverMap
-            }
-            restaurantMarkerList.forEach {
-                it.map = null
-            }
-            tourMarkerList.forEach {
-                it.map = null
             }
 
             viewPagerAdapter.submitList(cafeList)
@@ -121,12 +134,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
         binding.tourFloatingButton.setOnClickListener {
             // 관광지 플로팅 버튼 클릭시 관광지에 해당하는 위치에만 마커를 찍음
-            cafeMakerList.forEach {
-                it.map = null
-            }
-            restaurantMarkerList.forEach {
-                it.map = null
-            }
+            allMarkerDelete()
             tourMarkerList.forEach {
                 it.map = naverMap
             }
@@ -137,16 +145,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
         binding.restaurantFloatingButton.setOnClickListener {
             // 식당 플로팅 버튼 클릭시 식당에 해당하는 위치에만 마커를 찍음
-            cafeMakerList.forEach {
-                it.map = null
-            }
+            allMarkerDelete()
             restaurantMarkerList.forEach {
                 it.map = naverMap
             }
-            tourMarkerList.forEach {
-                it.map = null
-            }
-
             viewPagerAdapter.submitList(restaurantList)
             viewPagerAdapter.notifyDataSetChanged()
         }
@@ -165,6 +167,75 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
                 iAmThere(it)
             }
 
+        }
+
+        binding.searchEditText.setOnClickListener {
+            isSearchMode = true
+            showOrHideUI()
+            viewPagerAdapter.submitList(placeList)
+        }
+
+        binding.backButton.setOnClickListener {
+            isSearchMode = false
+            showOrHideUI()
+        }
+
+        binding.searchEditText.addTextChangedListener(object: TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(keyword: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val text = binding.searchEditText.text.toString()
+                findPlaceList.clear()
+
+                if(text.isNullOrBlank()){
+                    findAdapter.submitList(placeList)
+                }
+
+                placeList.forEach { tour->
+                    if(tour.title.contains(text)){
+                        findPlaceList.add(tour)
+                    }
+                }
+                findAdapter.submitList(findPlaceList)
+                binding.searchRecyclerView.adapter = findAdapter
+            }
+
+            override fun afterTextChanged(p0: Editable?) {}
+
+        })
+    }
+
+    private fun allMarkerDelete(){
+        cafeMakerList.forEach {
+            it.map = null
+        }
+        restaurantMarkerList.forEach {
+            it.map = null
+        }
+        tourMarkerList.forEach {
+            it.map = null
+        }
+    }
+
+    private fun showOrHideUI(){
+        when(isSearchMode){
+            true->{
+                binding.searchImage.visibility = View.INVISIBLE
+                binding.backButton.visibility = View.VISIBLE
+                binding.searchRecyclerView.visibility = View.VISIBLE
+                binding.bottomItemLayout.visibility = View.GONE
+
+                placeList = (cafeList + restaurantList + tourList) as MutableList<TourSpot>
+                binding.searchRecyclerView.adapter = findAdapter
+                findAdapter.submitList(placeList)
+            }
+            else->{
+                binding.backButton.visibility = View.INVISIBLE
+                binding.searchImage.visibility = View.VISIBLE
+                binding.searchRecyclerView.visibility = View.GONE
+                binding.bottomItemLayout.visibility = View.VISIBLE
+                hideKeyboard()
+            }
         }
     }
 
@@ -188,7 +259,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
     //내 위치를 가져오는 코드
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient //자동으로 gps값을 받아온다.
     lateinit var locationCallback: LocationCallback //gps응답 값을 가져온다.
-    //lateinit: 나중에 초기화 해주겠다는 의미
 
     @SuppressLint("MissingPermission")
     fun setUpdateLocationListner() {
@@ -226,7 +296,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
     override fun onMapReady(map: NaverMap) {
         naverMap = map
-
 
         var cameraUpdate = CameraUpdate.scrollTo(LatLng(37.8571641,127.739802))
         map.moveCamera(cameraUpdate)
@@ -327,6 +396,38 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
         return Math.round(ret) // 미터 단위
     }
 
+    private fun hideKeyboard(){
+        imm.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+    }
+
+    private fun markup(tour: TourSpot){
+        val marker = Marker()
+        marker.apply {
+            position = LatLng(tour.latitude, tour.longitude)
+            icon = MarkerIcons.BLACK
+            iconTintColor = Color.GREEN
+            width = 70
+            height = 90
+            tag = tour.id
+            onClickListener = this@MapFragment
+        }
+        marker.map = naverMap
+
+        val placeLocation = LatLng(tour.latitude, tour.longitude)
+
+        val cameraUpdate = CameraUpdate.scrollTo(placeLocation)
+        cameraUpdate.animate(CameraAnimation.Fly)
+        naverMap.moveCamera(cameraUpdate)
+        naverMap.maxZoom = 18.0
+        naverMap.minZoom = 5.0
+
+        onClick(marker)
+        previousMarker = marker
+    }
+    private fun deleteMark(marker: Marker){
+        marker.map = null
+    }
+
     override fun onClick(overlay: Overlay): Boolean {
         // 마커 클릭 리스너
         val selectedModel = viewPagerAdapter.currentList.firstOrNull {
@@ -340,4 +441,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, Overlay.OnClickListener {
 
         return true
     }
+
+
+
 }
