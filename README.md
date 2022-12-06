@@ -10,26 +10,24 @@
 
 춘천에서 가볼만한 장소들을 모아 보여주고, 춘천에 대한 편견을 깰 수 있는 앱을 만들어 보자!
 
-
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/7ab77152-4509-4549-9156-b57697c5a761/image.png" width="40%"/>
 ## 📌 주요 기능 및 인터페이스
 
 ### 1. 회원가입/로그인
 <figure class="half">
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/7ab77152-4509-4549-9156-b57697c5a761/image.png" width="40%"/>
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/a93b424b-8a5d-40b3-b926-69ccf6a9235e/image.png" width="40%"/>
+![image](https://user-images.githubusercontent.com/101651909/205787738-86fe99f8-7911-4195-8db9-561e626dbdfb.png)
+![image](https://user-images.githubusercontent.com/101651909/205787751-7041d314-be19-4fa8-b899-bf0fd2c1ca0f.png)
 </figure>
 회원가입/로그인 기능을 제공해 사용자의 데이터를 데이터베이스에 저장합니다.
 
 ### 2. Splash 화면
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/b38545a9-62dc-464e-aff7-ddd635017f40/image.png" width="40%"/>
+![image](https://user-images.githubusercontent.com/101651909/205787888-82cef2af-443e-4f49-8c2a-39b6a53cafe3.png)
 로그인을 하면 Splash 화면이 나오고, 필요한 데이터를 데이터 베이스에서 가져온 후, 메인화면으로 넘어갑니다. <br>
 Lottie 를 사용해서 로딩 애니메이션을 적용했습니다.
 
 ### 3. 메인 화면
 <figure class="half">
-  <img src="https://velog.velcdn.com/images/dldmswo1209/post/365cf974-fb7b-4ab7-83ba-6ee4f6d277a2/image.png" width="40%"/>
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/d565e6b7-5f65-4f31-b0a0-a779a75566d4/image.png" width="40%"/>
+![image](https://user-images.githubusercontent.com/101651909/205787911-5fb12d2d-6f0b-48a7-89e5-116578276029.png)
+![image](https://user-images.githubusercontent.com/101651909/205788064-c6b92eda-ab48-486f-804f-95f3eddd2a28.png)
 </figure>
 메인화면에서는 앱에 등록되어 있는 춘천의 장소들의 이미지와 이름들을 보여주고, 이미지를 클릭하면 상세 페이지를 보여줍니다. <br>
 상세페이지에서는 해당 장소의 대표메뉴, 소개글, 전화번호, 네이버플레이스로 이동할 수 있는 링크, 지도상에서의 위치를 보여줍니다. <br>
@@ -37,9 +35,9 @@ Lottie 를 사용해서 로딩 애니메이션을 적용했습니다.
 
 ### 4. 게시물 등록
 <figure class="third">
-    <img src="https://velog.velcdn.com/images/dldmswo1209/post/fc5eb1ab-af74-4cfe-9de6-3a75a5d85103/image.png" width="40%"/>
-  <img src="https://velog.velcdn.com/images/dldmswo1209/post/fb1cf624-e6e8-4438-b227-a2802851921c/image.png" width="40%"/>
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/98140aeb-8f61-4b73-acaa-f21739ad37c0/image.png" width="40%"/>
+![image](https://user-images.githubusercontent.com/101651909/205788094-e6d4029d-42c8-4d1a-a392-c3b98be0bdc7.png)
+![image](https://user-images.githubusercontent.com/101651909/205788123-0d110da4-b1ec-4f34-872e-43ff6e7fb1df.png)
+![image](https://user-images.githubusercontent.com/101651909/205788133-025ded6d-c02a-48e7-b50f-b1f18067c388.png)
 </figure>
 
 추억을 기록할 수 있는 게시물 기능입니다. <br>
@@ -48,11 +46,11 @@ Lottie 를 사용해서 로딩 애니메이션을 적용했습니다.
 ### 5. 네이버 지도 API 를 사용한 편의 기능
 
 <figure class="third">
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/65d1ce3c-0841-405d-a80a-b1b7bd046a4d/image.png" width="40%"/>
+![image](https://user-images.githubusercontent.com/101651909/205788169-596083b7-8006-4ef2-b7c1-0833bdef0eb7.png)
 
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/142b3465-4997-46cb-939e-dbf7c962c38c/image.png" width="40%"/>
+![image](https://user-images.githubusercontent.com/101651909/205788197-58c04706-993e-4385-ae04-e6dfa3d2dc78.png)
 
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/5401c4e5-0914-4f91-843b-4ebc14c83d48/image.png" width="40%"/>
+![image](https://user-images.githubusercontent.com/101651909/205788227-dac99455-13d2-4e42-9ac9-f965fe2028da.png)
 </figure>
 
 앱에 등록되어 있는 장소들의 위치를 좀 더 정확하게 알 수 있는 지도 기능을 제공합니다. <br>
@@ -60,19 +58,18 @@ Lottie 를 사용해서 로딩 애니메이션을 적용했습니다.
 카테고리 버튼을 클릭하면 카테고리에 맞는 장소들을 지도상에 마커로 표시해줍니다. <br>
 또한, 장소 검색기능도 제공합니다. <br>
 
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/63e222f9-0493-489b-b672-1897ee98345b/image.gif" width="40%"/>
-마커와 슬라이드를 연결해서 슬라이드를 할 때마다 해당 장소의 위치를 보여줍니다.
+<!-- 마커와 슬라이드를 연결해서 슬라이드를 할 때마다 해당 장소의 위치를 보여줍니다. -->
 
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/79a0f162-380a-4f01-90c5-61ccd37391df/image.gif" width="40%"/>
+![c1](https://user-images.githubusercontent.com/101651909/205788318-be1c2023-0b52-40b9-a52c-99a6d82a2365.gif)
 현재 사용자의 위치와 앱에 등록되어 있는 장소의 위치를 비교해서 10m 이내에 있다면, 해당 장소의 정복을 완료하고, 알림 메세지로 알려줍니다.
 
 ### 6. 프로필 변경
 
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/46edc75a-6035-41b0-8c45-4d5e08e00ee6/image.png" width="40%"/>
+![image](https://user-images.githubusercontent.com/101651909/205788530-6e18cd11-5435-4a55-a029-6be7bc00c402.png)
 이름과 프로필 사진을 변경할 수 있습니다.
 
 ### 7. 랭크시스템
-<img src="https://velog.velcdn.com/images/dldmswo1209/post/8b9c4ace-036f-484d-ba16-ba3bfff08e82/image.png" width="40%"/>
+![image](https://user-images.githubusercontent.com/101651909/205788556-99b1872b-1854-4379-89fe-1f80c62b7d3d.png)
 
 # 🛠 개발환경 및 사용 라이브러리
 - Android Studio(Kotlin)
