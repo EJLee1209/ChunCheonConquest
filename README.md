@@ -18,25 +18,18 @@
 회원가입/로그인 기능을 제공해 사용자의 데이터를 데이터베이스에 저장합니다.
 
 ### 2. Splash 화면
-![image](https://user-images.githubusercontent.com/101651909/205787888-82cef2af-443e-4f49-8c2a-39b6a53cafe3.png)
+<img src="https://user-images.githubusercontent.com/101651909/205787888-82cef2af-443e-4f49-8c2a-39b6a53cafe3.png" width="40%"/>
 로그인을 하면 Splash 화면이 나오고, 필요한 데이터를 데이터 베이스에서 가져온 후, 메인화면으로 넘어갑니다. <br>
 Lottie 를 사용해서 로딩 애니메이션을 적용했습니다.
 
 ### 3. 메인 화면
-<figure class="half">
-![image](https://user-images.githubusercontent.com/101651909/205787911-5fb12d2d-6f0b-48a7-89e5-116578276029.png)
-![image](https://user-images.githubusercontent.com/101651909/205788064-c6b92eda-ab48-486f-804f-95f3eddd2a28.png)
-</figure>
+<img src="https://user-images.githubusercontent.com/101651909/205787911-5fb12d2d-6f0b-48a7-89e5-116578276029.png" width="40%"/> | <img src="https://user-images.githubusercontent.com/101651909/205788064-c6b92eda-ab48-486f-804f-95f3eddd2a28.png" width="40%"/>
 메인화면에서는 앱에 등록되어 있는 춘천의 장소들의 이미지와 이름들을 보여주고, 이미지를 클릭하면 상세 페이지를 보여줍니다. <br>
 상세페이지에서는 해당 장소의 대표메뉴, 소개글, 전화번호, 네이버플레이스로 이동할 수 있는 링크, 지도상에서의 위치를 보여줍니다. <br>
 또한, 춘천 정복을 얼마나 했는지 그래프와 수치로 확인할 수 있습니다. <br>
 
 ### 4. 게시물 등록
-<figure class="third">
-![image](https://user-images.githubusercontent.com/101651909/205788094-e6d4029d-42c8-4d1a-a392-c3b98be0bdc7.png)
-![image](https://user-images.githubusercontent.com/101651909/205788123-0d110da4-b1ec-4f34-872e-43ff6e7fb1df.png)
-![image](https://user-images.githubusercontent.com/101651909/205788133-025ded6d-c02a-48e7-b50f-b1f18067c388.png)
-</figure>
+<img src="https://user-images.githubusercontent.com/101651909/205788094-e6d4029d-42c8-4d1a-a392-c3b98be0bdc7.png" width="30%"/> | <img src="https://user-images.githubusercontent.com/101651909/205788123-0d110da4-b1ec-4f34-872e-43ff6e7fb1df.png" width="30%"/> | <img src="https://user-images.githubusercontent.com/101651909/205788133-025ded6d-c02a-48e7-b50f-b1f18067c388.png" width="30%"/>
 
 추억을 기록할 수 있는 게시물 기능입니다. <br>
 이미 저장된 게시물을 터치하면 수정 또는 삭제가 가능합니다.
