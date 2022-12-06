@@ -14,8 +14,8 @@
 
 ### 1. 회원가입/로그인
 <figure class="half">
-<img src="https://user-images.githubusercontent.com/101651909/205787738-86fe99f8-7911-4195-8db9-561e626dbdfb.png" width="40%"/>
-<img src="https://user-images.githubusercontent.com/101651909/205787751-7041d314-be19-4fa8-b899-bf0fd2c1ca0f.png" width="40%"/>
+<img src="https://user-images.githubusercontent.com/101651909/205787738-86fe99f8-7911-4195-8db9-561e626dbdfb.png" width="30%"/>
+<img src="https://user-images.githubusercontent.com/101651909/205787751-7041d314-be19-4fa8-b899-bf0fd2c1ca0f.png" width="30%"/>
 </figure>
 회원가입/로그인 기능을 제공해 사용자의 데이터를 데이터베이스에 저장합니다.
 
