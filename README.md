@@ -19,11 +19,13 @@
 
 ### 2. Splash 화면
 <img src="https://user-images.githubusercontent.com/101651909/205787888-82cef2af-443e-4f49-8c2a-39b6a53cafe3.png" width="40%"/>
+
 로그인을 하면 Splash 화면이 나오고, 필요한 데이터를 데이터 베이스에서 가져온 후, 메인화면으로 넘어갑니다. <br>
 Lottie 를 사용해서 로딩 애니메이션을 적용했습니다.
 
 ### 3. 메인 화면
 <img src="https://user-images.githubusercontent.com/101651909/205787911-5fb12d2d-6f0b-48a7-89e5-116578276029.png" width="40%"/> | <img src="https://user-images.githubusercontent.com/101651909/205788064-c6b92eda-ab48-486f-804f-95f3eddd2a28.png" width="40%"/>
+
 메인화면에서는 앱에 등록되어 있는 춘천의 장소들의 이미지와 이름들을 보여주고, 이미지를 클릭하면 상세 페이지를 보여줍니다. <br>
 상세페이지에서는 해당 장소의 대표메뉴, 소개글, 전화번호, 네이버플레이스로 이동할 수 있는 링크, 지도상에서의 위치를 보여줍니다. <br>
 또한, 춘천 정복을 얼마나 했는지 그래프와 수치로 확인할 수 있습니다. <br>
@@ -36,6 +38,7 @@ Lottie 를 사용해서 로딩 애니메이션을 적용했습니다.
 
 ### 5. 네이버 지도 API 를 사용한 편의 기능
 <img src="https://user-images.githubusercontent.com/101651909/205788169-596083b7-8006-4ef2-b7c1-0833bdef0eb7.png" width="30%"/> | <img src="https://user-images.githubusercontent.com/101651909/205788197-58c04706-993e-4385-ae04-e6dfa3d2dc78.png" width="30%"/> | <img src="https://user-images.githubusercontent.com/101651909/205788227-dac99455-13d2-4e42-9ac9-f965fe2028da.png" width="30%"/>
+
 앱에 등록되어 있는 장소들의 위치를 좀 더 정확하게 알 수 있는 지도 기능을 제공합니다. <br>
 관광지, 카페, 식당 3가지의 카테고리로 분류되어있습니다. <br>
 카테고리 버튼을 클릭하면 카테고리에 맞는 장소들을 지도상에 마커로 표시해줍니다. <br>
@@ -44,11 +47,13 @@ Lottie 를 사용해서 로딩 애니메이션을 적용했습니다.
 <!-- 마커와 슬라이드를 연결해서 슬라이드를 할 때마다 해당 장소의 위치를 보여줍니다. -->
 
 <img src="https://user-images.githubusercontent.com/101651909/205788318-be1c2023-0b52-40b9-a52c-99a6d82a2365.gif" width="40%"/>
+
 현재 사용자의 위치와 앱에 등록되어 있는 장소의 위치를 비교해서 10m 이내에 있다면, 해당 장소의 정복을 완료하고, 알림 메세지로 알려줍니다.
 
 ### 6. 프로필 변경
 
 <img src="https://user-images.githubusercontent.com/101651909/205788530-6e18cd11-5435-4a55-a029-6be7bc00c402.png" width="40%"/>
+
 이름과 프로필 사진을 변경할 수 있습니다.
 
 ### 7. 랭크시스템
