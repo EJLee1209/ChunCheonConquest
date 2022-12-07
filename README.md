@@ -33,7 +33,7 @@ Lottie 를 사용해서 로딩 애니메이션을 적용했습니다.
 또한, 춘천 정복을 얼마나 했는지 그래프와 수치로 확인할 수 있습니다. <br>
 
 ### 4. 게시물 등록
-<img src="https://user-images.githubusercontent.com/101651909/206102245-8cc760e4-30ff-4f92-849a-5e0b6e73f7b0.png" width="40%"/> | <img src="https://user-images.githubusercontent.com/101651909/206102274-f7fb89d6-e0da-4ea5-a5e3-01ea789b6cb9.png" width="40%"/> | <img src="https://user-images.githubusercontent.com/101651909/206102278-b12ffc3c-f827-4457-8eb7-01451145decd.png" width="40%"/>
+<img src="https://user-images.githubusercontent.com/101651909/206102245-8cc760e4-30ff-4f92-849a-5e0b6e73f7b0.png" width="30%"/> | <img src="https://user-images.githubusercontent.com/101651909/206102274-f7fb89d6-e0da-4ea5-a5e3-01ea789b6cb9.png" width="30%"/> | <img src="https://user-images.githubusercontent.com/101651909/206102278-b12ffc3c-f827-4457-8eb7-01451145decd.png" width="30%"/>
 
 추억을 기록할 수 있는 게시물 기능입니다. <br>
 이미 저장된 게시물을 터치하면 수정 또는 삭제가 가능합니다.
