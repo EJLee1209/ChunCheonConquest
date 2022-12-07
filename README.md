@@ -39,7 +39,7 @@ Lottie 를 사용해서 로딩 애니메이션을 적용했습니다.
 이미 저장된 게시물을 터치하면 수정 또는 삭제가 가능합니다.
 
 ### 5. 네이버 지도 API 를 사용한 편의 기능
-<img src="https://user-images.githubusercontent.com/101651909/206102425-e03e56e2-56a8-4341-8f10-afb4bca2459c.png" width="40%"/> | <img src="https://user-images.githubusercontent.com/101651909/206102433-ce053d46-0e73-40d1-996f-412d2932394b.png" width="40%"/> | <img src="https://user-images.githubusercontent.com/101651909/206102437-2409698f-c533-46ea-b38c-796f7b0faaef.png" width="40%"/>
+<img src="https://user-images.githubusercontent.com/101651909/206102425-e03e56e2-56a8-4341-8f10-afb4bca2459c.png" width="30%"/> | <img src="https://user-images.githubusercontent.com/101651909/206102433-ce053d46-0e73-40d1-996f-412d2932394b.png" width="30%"/> | <img src="https://user-images.githubusercontent.com/101651909/206102437-2409698f-c533-46ea-b38c-796f7b0faaef.png" width="30%"/>
 
 앱에 등록되어 있는 장소들의 위치를 좀 더 정확하게 알 수 있는 지도 기능을 제공합니다. <br>
 관광지, 카페, 식당 3가지의 카테고리로 분류되어있습니다. <br>
